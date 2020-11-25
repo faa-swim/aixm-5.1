@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.aixm.aero/schema/5.1/event" version="5.1-d" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:aixm="http://www.aixm.aero/schema/5.1" xmlns:event="http://www.aixm.aero/schema/5.1/event" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://www.aixm.aero/schema/5.1" schemaLocation="AIXM_DataTypes.xsd"/>
+  <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="gml.xsd"/>
+  <annotation>
+    <appinfo>
+      <gml:gmlProfileSchema>http://www.aixm.aero/schema/5.1/profile/gml4aixm.xsd</gml:gmlProfileSchema>
+    </appinfo>
+  </annotation>
+  <annotation>
+    <appinfo source="www.aixm.aero/schema/5.1/event">Event_DataTypes.xsd</appinfo>
+  </annotation>
+  <annotation>
+    <documentation>Definition of data types that are associated with the Event Schema.</documentation>
+  </annotation>
+  <simpleType name="CodeNOTAMBaseType">
+    <annotation>
+      <appinfo>
+        <gml:description>A coded indicator of the NOTAM type.</gml:description>
+      </appinfo>
+    </annotation>
+    <union>
+      <simpleType>
+        <restriction base="xsd:string">
+          <enumeration value="N">
+            <annotation>
+              <appinfo>
+                <gml:description>New NOTAM</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+          <enumeration value="R">
+            <annotation>
+              <appinfo>
+                <gml:description>Replacement NOTAM</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+          <enumeration value="C">
+            <annotation>
+              <appinfo>
+                <gml:description>Cancel NOTAM</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+        </restriction>
+      </simpleType>
+      <simpleType>
+        <restriction base="string">
+          <pattern value="OTHER(:(\w|_){1,58})?"/>
+        </restriction>
+      </simpleType>
+    </union>
+  </simpleType>
+  <complexType name="CodeNOTAMType">
+    <simpleContent>
+      <extension base="event:CodeNOTAMBaseType">
+        <attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </extension>
+    </simpleContent>
+  </complexType>
+  <simpleType name="CodeNOTAMTranslationBaseType">
+    <annotation>
+      <appinfo>
+        <gml:description>A coded list of values indicating the extent by which a translation duplicates the related NOTAM.</gml:description>
+      </appinfo>
+    </annotation>
+    <union>
+      <simpleType>
+        <restriction base="xsd:string">
+          <enumeration value="TEXT_ONLY">
+            <annotation>
+              <appinfo>
+                <gml:description>The information contained in the NOTAM fields D (schedule), E (text), F (lowerLimit) and G (upperLimit) is translated into a different language. All the other NOTAM fields remain valid.</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+          <enumeration value="LOCAL_FORMAT">
+            <annotation>
+              <appinfo>
+                <gml:description>The translation is full, the whole NOTAM is translated into a local/regional format, which is different from the ICAO NOTAM format.</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+        </restriction>
+      </simpleType>
+      <simpleType>
+        <restriction base="string">
+          <pattern value="OTHER(:(\w|_){1,58})?"/>
+        </restriction>
+      </simpleType>
+    </union>
+  </simpleType>
+  <complexType name="CodeNOTAMTranslationType">
+    <simpleContent>
+      <extension base="event:CodeNOTAMTranslationBaseType">
+        <attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </extension>
+    </simpleContent>
+  </complexType>
+  <simpleType name="CodeEventEncodingBaseType">
+    <annotation>
+      <appinfo>
+        <gml:description>A coded value indicating the extent by which a piece of information is provided as digital data versus free text notes.</gml:description>
+      </appinfo>
+    </annotation>
+    <union>
+      <simpleType>
+        <restriction base="xsd:string">
+          <enumeration value="DIGITAL">
+            <annotation>
+              <appinfo>
+                <gml:description>The information is digitally structured to the maximum possible extent allowed by the model.</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+          <enumeration value="MIXED">
+            <annotation>
+              <appinfo>
+                <gml:description>The information is partially digitally structured. Some information is provided as a text Note, although the model has the capability to support the digital encoding of that piece of information.</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+          <enumeration value="ANNOTATION">
+            <annotation>
+              <appinfo>
+                <gml:description>The information is provided as free text Note associated with the feature and eventually the property concerned.</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+        </restriction>
+      </simpleType>
+      <simpleType>
+        <restriction base="string">
+          <pattern value="OTHER(:(\w|_){1,58})?"/>
+        </restriction>
+      </simpleType>
+    </union>
+  </simpleType>
+  <complexType name="CodeEventEncodingType">
+    <simpleContent>
+      <extension base="event:CodeEventEncodingBaseType"/>
+    </simpleContent>
+  </complexType>
+  <simpleType name="CodeAISPublicationBaseType">
+    <annotation>
+      <appinfo>
+        <gml:description>A coded list of values indicating a type of AIS publication, according to the ICAO Standards and Recommended Practices.</gml:description>
+      </appinfo>
+    </annotation>
+    <union>
+      <simpleType>
+        <restriction base="xsd:string">
+          <enumeration value="AIP_AMDT">
+            <annotation>
+              <appinfo>
+                <gml:description>Aeronautical Information Publication (AIP) Amendment</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+          <enumeration value="AIP_SUP">
+            <annotation>
+              <appinfo>
+                <gml:description>Aeronautical Information Publication (AIP) Supplement</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+          <enumeration value="AIC">
+            <annotation>
+              <appinfo>
+                <gml:description>Aeronautical Information Circular (AIC)</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+        </restriction>
+      </simpleType>
+      <simpleType>
+        <restriction base="string">
+          <pattern value="OTHER(:(\w|_){1,58})?"/>
+        </restriction>
+      </simpleType>
+    </union>
+  </simpleType>
+  <complexType name="CodeAISPublicationType">
+    <simpleContent>
+      <extension base="event:CodeAISPublicationBaseType">
+        <attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </extension>
+    </simpleContent>
+  </complexType>
+  <simpleType name="TextNOTAMBaseType">
+    <annotation>
+      <appinfo>
+        <gml:description>A string of upper case characters and / or numbers that can be used in the NOTAM fields.</gml:description>
+      </appinfo>
+    </annotation>
+    <restriction base="aixm:Character2Type"/>
+  </simpleType>
+  <complexType name="TextNOTAMType">
+    <simpleContent>
+      <extension base="event:TextNOTAMBaseType">
+        <attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </extension>
+    </simpleContent>
+  </complexType>
+</schema>

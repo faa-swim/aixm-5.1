@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.aixm.aero/schema/5.1/extensions/FAA/FNSE" version="5.1-b" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:aixm="http://www.aixm.aero/schema/5.1" xmlns:event="http://www.aixm.aero/schema/5.1/event" xmlns:fnse="http://www.aixm.aero/schema/5.1/extensions/FAA/FNSE" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="FNSE_DataTypes.xsd"/>
+  <import namespace="http://www.aixm.aero/schema/5.1/event" schemaLocation="Event_Features.xsd"/>
+  <import namespace="http://www.aixm.aero/schema/5.1" schemaLocation="AIXM_AbstractGML_ObjectTypes.xsd"/>
+  <!--<import namespace="http://www.opengis.net/gml/3.2" schemaLocation="./ISO_19136_Schemas/gml.xsd"/>
+	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="./xlink/xlinks.xsd"/>-->
+  <annotation>
+    <appinfo>
+      <gml:gmlProfileSchema>http://www.aixm.aero/schema/5.0/profile/gml4aixm.xsd</gml:gmlProfileSchema>
+    </appinfo>
+  </annotation>
+  <annotation>
+    <appinfo source="www.aixm.aero/schema/5.0">AIXM_Features.xsd</appinfo>
+  </annotation>
+  <annotation>
+    <documentation>Definition of classes that are specific to the FAA
+			extension of the Event Schema.</documentation>
+  </annotation>
+  <element name="EventExtension" substitutionGroup="event:AbstractEventExtension" type="fnse:EventExtensionType"/>
+  <complexType name="EventExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="fnse:EventExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="EventExtensionPropertyGroup">
+    <sequence>
+      <element minOccurs="0" name="classification" nillable="true" type="fnse:CodeNOTAMClassificationBaseType"/>
+      <element minOccurs="0" name="accountId" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>This is for accountability or similar to
+							account_id of USNS</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <xsd:element minOccurs="0" name="xoveraccountID" nillable="true" type="event:TextNOTAMType"/>
+      <xsd:element minOccurs="0" name="xovernotamID" nillable="true" type="event:TextNOTAMType"/>
+      <xsd:element minOccurs="0" name="airportname" nillable="true" type="aixm:TextNameType"/>
+      <xsd:element minOccurs="0" name="deleteDate" nillable="true" type="aixm:DateTimeType"/>
+      <xsd:element minOccurs="0" name="originID" nillable="true" type="event:TextNOTAMType"/>
+      <xsd:element minOccurs="0" name="qline" nillable="true" type="aixm:TextNameType"/>
+      <xsd:element minOccurs="0" name="lastUpdated" nillable="true" type="aixm:DateTimeType"/>
+      <xsd:element minOccurs="0" name="canceled" nillable="true" type="aixm:DateTimeType"/>
+      <xsd:element minOccurs="0" name="icaoLocation" nillable="true" type="aixm:TextNameType"/>
+      <xsd:element minOccurs="0" name="snowtamCountryCode" nillable="true" type="aixm:TextNameType"/>
+    </sequence>
+  </group>
+</schema>

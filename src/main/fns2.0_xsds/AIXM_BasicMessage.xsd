@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.aixm.aero/schema/5.1/message" version="5.1" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:aixm="http://www.aixm.aero/schema/5.1" xmlns:event="http://www.aixm.aero/schema/5.1/event" xmlns:fns="urn:us.gov.dot.faa.aim.fns" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:message="http://www.aixm.aero/schema/5.1/message" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="gml.xsd"/>
+  <import namespace="http://www.aixm.aero/schema/5.1" schemaLocation="AIXM_Features.xsd"/>
+  <import namespace="http://www.aixm.aero/schema/5.1/event" schemaLocation="Event_Features.xsd"/>
+  <import namespace="urn:us.gov.dot.faa.aim.fns" schemaLocation="FNS_Features.xsd"/>
+  <import namespace="http://www.w3.org/1999/xlink" schemaLocation="xlink.xsd"/>
+  <annotation>
+    <appinfo source="urn:eurocontrol:specification:aixm:schema:xsd:Basic Message.xsd:5.1">Basic Message.xsd</appinfo>
+    <documentation>The definition of a simple data product, that contains just a collection of AIXM features.</documentation>
+  </annotation>
+  <group name="AIXMBasicMessagePropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" name="hasMember" type="message:BasicMessageMemberAIXMPropertyType"/>
+    </sequence>
+  </group>
+  <complexType name="AIXMBasicMessageType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMMessageType">
+        <sequence>
+          <any maxOccurs="unbounded" namespace="##targetNamespace" processContents="skip"/>
+          <!--<group ref="message:AIXMBasicMessagePropertyGroup" />-->
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <element name="AIXMBasicMessage" substitutionGroup="gml:AbstractFeature" type="message:AIXMBasicMessageType"/>
+  <complexType name="BasicMessageMemberAIXMPropertyType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureMemberType">
+        <choice>
+          <element ref="aixm:AbstractAIXMFeature"/>
+        </choice>
+        <attributeGroup ref="gml:AssociationAttributeGroup"/>
+      </extension>
+    </complexContent>
+  </complexType>
+</schema>

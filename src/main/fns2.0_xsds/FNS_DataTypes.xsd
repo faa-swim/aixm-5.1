@@ -1,0 +1,571 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:us.gov.dot.faa.aim.fns" version="1.0" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:aixm="http://www.aixm.aero/schema/5.1" xmlns:fns="urn:us.gov.dot.faa.aim.fns" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="gml.xsd"/>
+  <import namespace="http://www.aixm.aero/schema/5.1" schemaLocation="AIXM_DataTypes.xsd"/>
+  <xsd:annotation>
+    <xsd:appinfo>
+      <gml:gmlProfileSchema>http://www.aixm.aero/schema/5.1/profile/gml4aixm.xsd</gml:gmlProfileSchema>
+    </xsd:appinfo>
+  </xsd:annotation>
+  <xsd:annotation>
+    <xsd:appinfo source="www.aixm.aero/schema/5.1">AIXM_DataTypes.xsd</xsd:appinfo>
+  </xsd:annotation>
+  <xsd:simpleType name="CodeNOTAMStatusBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ACTIVATION_IN_PROGRESS"/>
+      <xsd:enumeration value="ACTIVE"/>
+      <xsd:enumeration value="CANCELLED"/>
+      <xsd:enumeration value="DRAFT"/>
+      <xsd:enumeration value="EXPIRED"/>
+      <xsd:enumeration value="CANCELLATION_IN_PROGRESS"/>
+      <xsd:enumeration value="ERROR_ACTIVATING"/>
+      <xsd:enumeration value="ERROR_CANCELLING"/>
+      <xsd:enumeration value="ACTIVATION_PENDING"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CodeResponseStatusBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="OK"/>
+      <xsd:enumeration value="DATA_MISSING_ERROR">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>There are errors during processing. Check the message for detailed information.</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="USER_LOGIN_ERROR">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>There are errors during processing. Check the message for detailed information.</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="DATA_VALIDATION_ERROR">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>There are errors during processing. Check the message for detailed information.</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="SYSTEM_ERROR">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>There are errors during processing. Check the message for detailed information.</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeNOTAMStatusType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeNOTAMStatusBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CodeResponseStatusType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeResponseStatusBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeNOTAMRequestActionBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="CREATE_NOTAM">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>CREATE NOTAM</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="CANCEL_NOTAM">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>CANCEL NOTAM</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="CHECK_NOTAM_STATUS">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Check NOTAM Status</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="CREATE_NOTAM_PREVIEW">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>CREATE NOTAM Preview. NOTAM is neither saved nor submitted. The purpose of this action is to review the NOTAM translation.</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeNOTAMRequestActionType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeNOTAMRequestActionBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeNOTAMScenarioType">
+    <xsd:union>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="AERODROME_BEACON_STATUS"/>
+          <xsd:enumeration value="AERODROME_CLOSURE"/>
+          <xsd:enumeration value="AERODROME_DEICE_PAD_CLOSED"/>
+          <xsd:enumeration value="AERODROME_LIGHTED_WIND_INDICATOR_STATUS"/>
+          <xsd:enumeration value="AERODROME_PERSONEL_EQUIPMENT_WARNING"/>
+          <xsd:enumeration value="AERODROME_SURFACE_CONDITION"/>
+          <xsd:enumeration value="AERODROME_WILDLIFE_HAZARD"/>
+          <xsd:enumeration value="SERVICE_AIRCRAFT_RESCUE_AND_FIRE_FIGHTING_AVAILABILITY"/>
+          <xsd:enumeration value="SERVICE_FUEL_AVAILABILITY"/>
+          <xsd:enumeration value="APRON_CLOSURE"/>
+          <xsd:enumeration value="APRON_GROUND_MARKINGS_STATUS"/>
+          <xsd:enumeration value="APRON_LIGHTS_OUT_OF_SERVICE"/>
+          <xsd:enumeration value="APRON_PERSONNEL_AND_EQUIPMENT_WORKING"/>
+          <xsd:enumeration value="APRON_SURFACE_CONDITION"/>
+          <xsd:enumeration value="RUNWAY_CLOSURE"/>
+          <xsd:enumeration value="ALL_RUNWAYS_CONTINUOUS_SNOW_OR_ICE_REMOVAL"/>
+          <xsd:enumeration value="RUNWAY_FRICTION_MEASUREMENTS"/>
+          <xsd:enumeration value="RUNWAY_LIGHTS_OBSCURED"/>
+          <xsd:enumeration value="RUNWAY_LIGHTED_SIGN_STATUS"/>
+          <xsd:enumeration value="RUNWAY_APPROACH_LIGHTING_SYSTEM_STATUS"/>
+          <xsd:enumeration value="RUNWAY_SEQUENCE_FLASHING_LIGHTS_AND_RUNWAY_ALIGNMENT_INDICATOR_LIGHTS_STATUS"/>
+          <xsd:enumeration value="RUNWAY_RUNWAY_LIGHTING_STATUS"/>
+          <xsd:enumeration value="RUNWAY_VISUAL_APPROACH_LIGHTING_SYSTEMS"/>
+          <xsd:enumeration value="RUNWAY_PILOT_CONTROLLED_LIGHTING_STATUS"/>
+          <xsd:enumeration value="RUNWAY_PILOT_CONTROLLED_LIGHTING_FREQUENCY_CHANGE"/>
+          <xsd:enumeration value="RUNWAY_PERSONNEL_AND_EQUIPMENT_WORKING"/>
+          <xsd:enumeration value="RUNWAY_WILDLIFE_HAZARD"/>
+          <xsd:enumeration value="RUNWAY_RUNWAY_VISUAL_RANGE_STATUS"/>
+          <xsd:enumeration value="RUNWAY_VFR_TRAFFIC_PATTERN"/>
+          <xsd:enumeration value="RUNWAY_DISTANCE_AVAILABLE"/>
+          <xsd:enumeration value="RUNWAY_THRESHOLD_DISPLACEMENT"/>
+          <xsd:enumeration value="RUNWAY_MARKING_CHANGE"/>
+          <xsd:enumeration value="RUNWAY_INFORMATION_CHANGE"/>
+          <xsd:enumeration value="RUNWAY_SURFACE_CONDITION"/>
+          <xsd:enumeration value="TAXIWAY_CLOSED"/>
+          <xsd:enumeration value="TAXIWAY_ELEMENT_CLOSED"/>
+          <xsd:enumeration value="TAXIWAY_LIGHTS_OUT_OF_SERVICE"/>
+          <xsd:enumeration value="TAXIWAY_LIGHTED_SIGN_STATUS"/>
+          <xsd:enumeration value="TAXIWAY_PERSONNEL_AND_EQUIPMENT_WORKING"/>
+          <xsd:enumeration value="TAXIWAY_ELEMENT_PERSONNEL_AND_EQUIPMENT_WORKING"/>
+          <xsd:enumeration value="TAXIWAY_GROUND_MARKINGS_STATUS"/>
+          <xsd:enumeration value="TAXIWAY_SURFACE_CONDITION"/>
+          <xsd:enumeration value="OBSTRUCTION_PERMANENT_OBSTACLE_LIGHT_STATUS"/>
+          <xsd:enumeration value="OBSTRUCTION_TEMPORARY_OBSTACLE_STATUS"/>
+          <xsd:enumeration value="OBSTRUCTION_MOORED_BALLOON_OR_KITE_OBSTACLE"/>
+          <xsd:enumeration value="OBSTRUCTION_TOWER_LIGHTS_OUT_OF_SERVICE"/>
+          <xsd:enumeration value="RUNWAY_BRAKING_ACTION"/>
+          <xsd:enumeration value="RUNWAY_DIRECTION_LIGHTED_SIGN_STATUS"/>
+          <xsd:enumeration value="RUNWAY_GROUND_MARKING_STATUS"/>
+          <xsd:enumeration value="RUNWAY_CONSTRUCTION_STATUS"/>
+          <xsd:enumeration value="APRON_CONSTRUCTION_STATUS"/>
+          <xsd:enumeration value="RUNWAY_PROPERTIES_CHANGE"/>
+          <xsd:enumeration value="RUNWAY_SAFETY_AREA_STATUS"/>
+          <xsd:enumeration value="RUNWAY_ARRESTING_GEAR_STATUS"/>
+          <xsd:enumeration value="CARF_STATIONARY_ALTITUDE_RESERVATION"/>
+          <xsd:enumeration value="APRON_RAMP_FREEZE"/>
+          <xsd:enumeration value="TFR_FREE_FORM"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType>
+        <xsd:restriction base="string">
+          <xsd:pattern value="OTHER(:(\w|_){1,58})?">
+							</xsd:pattern>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:union>
+  </xsd:simpleType>
+  <xsd:simpleType name="CodeLightedBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="LIGHTED"/>
+      <xsd:enumeration value="UNLIGHTED"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeSignType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeSignBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeWindDirectionIndicatorBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="WINDCONE"/>
+      <xsd:enumeration value="TETRAHEDRON"/>
+      <xsd:enumeration value="WIND_TEE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeWindDirectionIndicatorType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeWindDirectionIndicatorBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeDeliveryMethodBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="SELF_SERVE"/>
+      <xsd:enumeration value="MOBILE"/>
+      <xsd:enumeration value="ALL"/>
+      <xsd:enumeration value="HYDRANT"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeDeliveryMethodType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeDeliveryMethodBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeSignBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="APRON"/>
+      <xsd:enumeration value="CARGO"/>
+      <xsd:enumeration value="CIVIL"/>
+      <xsd:enumeration value="FBO"/>
+      <xsd:enumeration value="FUEL"/>
+      <xsd:enumeration value="GUIDANCE"/>
+      <xsd:enumeration value="HOLD_INSTRUMENT_LANDING_SYSTEM"/>
+      <xsd:enumeration value="HOLD_RUNWAY_APPROACH"/>
+      <xsd:enumeration value="HOLD_RUNWAY_INTERSECTION"/>
+      <xsd:enumeration value="HOLD_TAXIWAY_RUNWAY"/>
+      <xsd:enumeration value="INFO"/>
+      <xsd:enumeration value="INSTRUMENT_LANDING_SYSTEM_CRITICAL"/>
+      <xsd:enumeration value="INTL"/>
+      <xsd:enumeration value="MIL"/>
+      <xsd:enumeration value="NO_ENTRY"/>
+      <xsd:enumeration value="OUTBOUND_DESTINATION"/>
+      <xsd:enumeration value="PAX"/>
+      <xsd:enumeration value="ROAD_STOP"/>
+      <xsd:enumeration value="ROAD_YIELD"/>
+      <xsd:enumeration value="RSA_RUNWAY_APPROACH"/>
+      <xsd:enumeration value="RUNWAY_EXIT"/>
+      <xsd:enumeration value="RUNWAY_LOCATION"/>
+      <xsd:enumeration value="RUNWAY_DISTANCE_REMAINING"/>
+      <xsd:enumeration value="TAXIWAY_DIRECTION"/>
+      <xsd:enumeration value="TAXIWAY_END"/>
+      <xsd:enumeration value="TAXIWAY_LOCATION"/>
+      <xsd:enumeration value="TERMINAL"/>
+      <xsd:enumeration value="TACAN_CHECKPOINT"/>
+      <xsd:enumeration value="OTHER:ALL"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CodeSignDescriptionBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ALL"/>
+      <xsd:enumeration value="OUTBOUND"/>
+      <xsd:enumeration value="INBOUND"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeSignDescriptionType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeSignDescriptionBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CodeLightedType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeLightedBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeSignStatusBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="UNLIGHTED"/>
+      <xsd:enumeration value="OBSCURED"/>
+      <xsd:enumeration value="UNSERVICEABLE"/>
+      <xsd:enumeration value="NON_STANDARD"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeSignStatusType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeSignStatusBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeLightingBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="TDZL">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Touchdown zone lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="RCLL">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Runway centerline lighting</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="EDGE">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Runway edge lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="THR">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Threshold lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="REIL">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Runway end identifier lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="TLOF">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Taxiway centerline lead-off lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="LEAD_ON">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Taxiway centerline lead-on lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="LAHSO">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Land and hold short operations lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="FAROS">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Final approach runway occupancy signal</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="RLLS">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Runway lead-in light system</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="RWSL">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Runways status light</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="REL">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Runway entrance lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="THL">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Takeoff hold lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="LIRL">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Low intensity runway lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="MIRL">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Medium intensity runway lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="HIRL">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>High intensity runway lights</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="ALS">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Approach Lighting System</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeLightingType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeLightingBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeTaxiwayMarkingBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="SHOULDER"/>
+      <xsd:enumeration value="DIRECTION"/>
+      <xsd:enumeration value="LOCATION"/>
+      <xsd:enumeration value="GEOGRAPHIC_POS"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeTaxiwayMarkingType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeTaxiwayMarkingBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeCoverageBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="PATCHY"/>
+      <xsd:enumeration value="FULLY_COVERED"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeCoverageType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeCoverageBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeRidgeBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="DRIFT"/>
+      <xsd:enumeration value="SNOWBANK"/>
+      <xsd:enumeration value="BERM"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeRidgeType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeRidgeBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeClearanceMethodBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="PLOWED"/>
+      <xsd:enumeration value="SANDED"/>
+      <xsd:enumeration value="SWEPT"/>
+      <xsd:enumeration value="PLOWED_SWEPT"/>
+      <xsd:enumeration value="PLOWED_SWEPT_SANDED"/>
+      <xsd:enumeration value="DEICED_LIQUID"/>
+      <xsd:enumeration value="DEICED_SOLID"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeClearanceMethodType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeClearanceMethodBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeCrackBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="CRACKS"/>
+      <xsd:enumeration value="RUTS"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeCrackType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeCrackBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeApronMarkingBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="COMPASS_ROSE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeApronMarkingType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeApronMarkingBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeLandingMarkingBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="NON_STANDARD"/>
+      <xsd:enumeration value="NONE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeLandingMarkingType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeLandingMarkingBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeBarrierBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="NONE"/>
+      <xsd:enumeration value="BARRIER"/>
+      <xsd:enumeration value="LIGHTED_BARRIER"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeBarrierType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeBarrierBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeMarkingStatusBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="OBSC"/>
+      <xsd:enumeration value="PART_OBSC"/>
+      <xsd:enumeration value="FADED"/>
+      <xsd:enumeration value="REMOVED"/>
+      <xsd:enumeration value="NONE">
+        <xsd:annotation>
+          <appinfo>
+            <gml:description>Un Marked</gml:description>
+          </appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="NON_STANDARD"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeMarkingStatusType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeMarkingStatusBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="CodeFrostHeaveBaseType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="FROSTHEAVE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CodeFrostHeaveType">
+    <xsd:simpleContent>
+      <xsd:extension base="fns:CodeFrostHeaveBaseType">
+        <xsd:attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+</xsd:schema>

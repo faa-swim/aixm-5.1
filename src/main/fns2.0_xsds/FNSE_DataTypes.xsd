@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.aixm.aero/schema/5.1/extensions/FAA/FNSE" version="5.1-a" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:aixm="http://www.aixm.aero/schema/5.1" xmlns:fnse="http://www.aixm.aero/schema/5.1/extensions/FAA/FNSE" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!--<import namespace="http://www.aixm.aero/schema/5.1" schemaLocation="../../../AIXM_DataTypes.xsd"/>-->
+  <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="gml.xsd"/>
+  <annotation>
+    <appinfo>
+      <gml:gmlProfileSchema>http://www.aixm.aero/schema/5.1/profile/gml4aixm.xsd</gml:gmlProfileSchema>
+    </appinfo>
+  </annotation>
+  <annotation>
+    <documentation>Data types that are specific to the US Federal Aviation Administration NOTAM System.</documentation>
+  </annotation>
+  <simpleType name="CodeNOTAMClassificationBaseType">
+    <union>
+      <simpleType>
+        <restriction base="xsd:string">
+          <enumeration value="INTL">
+            <annotation>
+              <appinfo>
+                <gml:description>International NOTAM</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+          <enumeration value="DOM">
+            <annotation>
+              <appinfo>
+                <gml:description>Domestic NOTAM</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+          <enumeration value="MIL">
+            <annotation>
+              <appinfo>
+                <gml:description>Military NOTAM</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+          <enumeration value="LMIL">
+            <annotation>
+              <appinfo>
+                <gml:description>Local Military NOTAM</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+          <enumeration value="FDC">
+            <annotation>
+              <appinfo>
+                <gml:description>Flight Data Centre NOTAM</gml:description>
+              </appinfo>
+            </annotation>
+          </enumeration>
+        </restriction>
+      </simpleType>
+      <simpleType>
+        <restriction base="string">
+          <pattern value="OTHER(:(\w|_){1,58})?"/>
+        </restriction>
+      </simpleType>
+    </union>
+  </simpleType>
+  <complexType name="CodeNOTAMClassificationType">
+    <simpleContent>
+      <extension base="fnse:CodeNOTAMClassificationBaseType">
+        <attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+      </extension>
+    </simpleContent>
+  </complexType>
+</schema>

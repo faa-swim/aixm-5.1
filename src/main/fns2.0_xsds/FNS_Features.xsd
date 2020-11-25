@@ -1,0 +1,931 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:us.gov.dot.faa.aim.fns" version="1.0" 
+  xmlns="http://www.w3.org/2001/XMLSchema" 
+  xmlns:aixm="http://www.aixm.aero/schema/5.1" 
+  xmlns:fns="urn:us.gov.dot.faa.aim.fns" 
+  xmlns:gml="http://www.opengis.net/gml/3.2" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="gml.xsd"/>
+  <import namespace="http://www.aixm.aero/schema/5.1" schemaLocation="AIXM_Features.xsd"/>
+  <!--<import namespace="http://www.w3.org/1999/xlink" schemaLocation="./xlink/xlinks.xsd" />-->
+  <include schemaLocation="FNS_DataTypes.xsd"/>
+  <xsd:annotation>
+    <xsd:appinfo>
+      <gml:gmlProfileSchema>http://www.aixm.aero/schema/5.0/profile/gml4aixm.xsd</gml:gmlProfileSchema>
+    </xsd:appinfo>
+  </xsd:annotation>
+  <xsd:annotation>
+    <xsd:appinfo source="www.aixm.aero/schema/5.0">AIXM_Features.xsd</xsd:appinfo>
+  </xsd:annotation>
+  <xsd:complexType name="FNS_NOTAMPropertyType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractAIXMPropertyType">
+        <xsd:sequence>
+          <xsd:element ref="fns:FNS_NOTAM"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="FNS_NOTAM" type="fns:FNS_NOTAMType">
+  </xsd:element>
+  <xsd:complexType name="FNS_NOTAMType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractAIXMObjectType">
+        <xsd:sequence>
+          <xsd:group ref="fns:FNS_NOTAMPropertyGroup"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="extension">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element ref="fns:AbstractFNS_NOTAMExtension"/>
+              </xsd:sequence>
+              <xsd:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="FNS_NOTAMPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="transactionID" nillable="true" type="xsd:string">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="status" nillable="true" type="fns:CodeNOTAMStatusType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="accountability" nillable="true" type="aixm:AlphanumericType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="location" nillable="true" type="aixm:AlphanumericType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="notamID" nillable="true" type="xsd:string">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="issuedDate" nillable="true" type="aixm:DateMonthDayType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cancelledDate" nillable="true" type="aixm:DateMonthDayType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="startDate" nillable="true" type="aixm:DateMonthDayType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="endDate" nillable="true" type="aixm:DateMonthDayType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="conditionText" nillable="true" type="xsd:string">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="usNOTAMText" nillable="true" type="xsd:string">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="icaoNOTAMText" nillable="true" type="xsd:string">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="plainNOTAMText" nillable="true" type="xsd:string">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element abstract="true" name="AbstractFNS_NOTAMExtension" substitutionGroup="aixm:AbstractExtension" type="aixm:AbstractExtensionType"/>
+  <xsd:complexType name="NOTAMResponsePropertyType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractAIXMPropertyType">
+        <xsd:sequence>
+          <xsd:element ref="fns:NOTAMResponse"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="NOTAMResponse" type="fns:NOTAMResponseType">
+  </xsd:element>
+  <xsd:complexType name="NOTAMResponseType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractAIXMObjectType">
+        <xsd:sequence>
+          <xsd:group ref="fns:NOTAMResponsePropertyGroup"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="extension">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element ref="fns:AbstractNOTAMResponseExtension"/>
+              </xsd:sequence>
+              <xsd:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="NOTAMResponsePropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="status" nillable="true" type="fns:CodeResponseStatusType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="message" nillable="true" type="xsd:string">
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="hasNOTAM" nillable="true" type="fns:FNS_NOTAMPropertyType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element abstract="true" name="AbstractNOTAMResponseExtension" substitutionGroup="aixm:AbstractExtension" type="aixm:AbstractExtensionType"/>
+  <xsd:complexType name="NOTAMRequestPropertyType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractAIXMPropertyType">
+        <xsd:sequence>
+          <xsd:element ref="fns:NOTAMRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="NOTAMRequest" type="fns:NOTAMRequestType">
+  </xsd:element>
+  <xsd:complexType name="NOTAMRequestType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractAIXMObjectType">
+        <xsd:sequence>
+          <xsd:group ref="fns:NOTAMRequestPropertyGroup"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="extension">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element ref="fns:AbstractNOTAMRequestExtension"/>
+              </xsd:sequence>
+              <xsd:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="NOTAMRequestPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="scenarioType" nillable="true" type="fns:CodeNOTAMScenarioType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="requestAction" nillable="true" type="fns:CodeNOTAMRequestActionBaseType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="originatorFirstName" nillable="true" type="aixm:Character2Type">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="originatorLastName" nillable="true" type="aixm:Character2Type">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="originatorEmail" nillable="true" type="aixm:Character2Type">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="originatorPhone" nillable="true" type="aixm:TextPhoneType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="originatorRemark" nillable="true" type="aixm:Character2Type">
+      </xsd:element>
+      <xsd:element maxOccurs="1" minOccurs="0" name="FNS_NOTAM" nillable="true" type="fns:FNS_NOTAMPropertyType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element abstract="true" name="AbstractNOTAMRequestExtension" substitutionGroup="aixm:AbstractExtension" type="aixm:AbstractExtensionType"/>
+  <xsd:element name="AeronauticalGroundLightExtension" substitutionGroup="aixm:AbstractAeronauticalGroundLightExtension" type="fns:AeronauticalGroundLightExtensionType"/>
+  <xsd:complexType name="AeronauticalGroundLightExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:AeronauticalGroundLightExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="AeronauticalGroundLightExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="operationalStatus" nillable="true" type="aixm:CodeStatusOperationsType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="RunwayExtension" substitutionGroup="aixm:AbstractRunwayExtension" type="fns:RunwayExtensionType"/>
+  <xsd:complexType name="RunwayExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:RunwayExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="RunwayExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="lighted" nillable="true" type="fns:CodeLightedType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="RunwayDirectionExtension" substitutionGroup="aixm:AbstractRunwayDirectionExtension" type="fns:RunwayDirectionExtensionType"/>
+  <xsd:complexType name="RunwayDirectionExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:RunwayDirectionExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="RunwayDirectionExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="areaContaminant" nillable="true" type="aixm:RunwaySectionContaminationPropertyType">
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="overallContaminant" nillable="true" type="aixm:RunwayContaminationPropertyType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="RunwaySectionContaminationExtension" substitutionGroup="aixm:AbstractRunwaySectionContaminationExtension" type="fns:RunwaySectionContaminationExtensionType"/>
+  <xsd:complexType name="RunwaySectionContaminationExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:RunwaySectionContaminationExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="RunwaySectionContaminationExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="runwayConditionCode" nillable="true" type="aixm:TextNoteType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="VerticalStructureExtension" substitutionGroup="aixm:AbstractVerticalStructureExtension" type="fns:VerticalStructureExtensionType"/>
+  <xsd:complexType name="VerticalStructureExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:VerticalStructureExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="VerticalStructureExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="distance" nillable="true" type="aixm:ValDistanceType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardinalDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+      <xsd:element maxOccurs="1" minOccurs="0" name="closestAirport" nillable="true" type="aixm:AirportHeliportPropertyType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:complexType name="WindDirectionIndicatorPropertyType">
+    <xsd:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+    <xsd:attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </xsd:complexType>
+  <xsd:element name="WindDirectionIndicator" substitutionGroup="aixm:AbstractAIXMFeature" type="fns:WindDirectionIndicatorType">
+  </xsd:element>
+  <xsd:complexType name="WindDirectionIndicatorType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractAIXMFeatureType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="timeSlice" type="fns:WindDirectionIndicatorTimeSlicePropertyType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="WindDirectionIndicatorTimeSlicePropertyType">
+    <xsd:sequence>
+      <xsd:element ref="fns:WindDirectionIndicatorTimeSlice"/>
+    </xsd:sequence>
+    <xsd:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+  </xsd:complexType>
+  <xsd:element name="WindDirectionIndicatorTimeSlice" substitutionGroup="gml:AbstractTimeSlice" type="fns:WindDirectionIndicatorTimeSliceType"/>
+  <xsd:complexType name="WindDirectionIndicatorTimeSliceType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractAIXMTimeSliceType">
+        <xsd:sequence>
+          <xsd:group ref="fns:WindDirectionIndicatorPropertyGroup"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="extension">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element ref="fns:AbstractWindDirectionIndicatorExtension"/>
+              </xsd:sequence>
+              <xsd:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="WindDirectionIndicatorPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="type" nillable="true" type="fns:CodeWindDirectionIndicatorType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="operationalStatus" nillable="true" type="aixm:CodeStatusOperationsType">
+      </xsd:element>
+      <xsd:element maxOccurs="1" minOccurs="0" name="associatedRunway" nillable="true" type="aixm:RunwayPropertyType">
+      </xsd:element>
+      <xsd:element maxOccurs="1" minOccurs="0" name="associatedAirport" nillable="true" type="aixm:AirportHeliportPropertyType">
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="annotation" nillable="true" type="aixm:NotePropertyType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element abstract="true" name="AbstractWindDirectionIndicatorExtension" substitutionGroup="aixm:AbstractExtension" type="aixm:AbstractExtensionType"/>
+  <xsd:element name="AirportHeliportAvailabilityExtension" substitutionGroup="aixm:AbstractAirportHeliportAvailabilityExtension" type="fns:AirportHeliportAvailabilityExtensionType"/>
+  <xsd:complexType name="AirportHeliportAvailabilityExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:AirportHeliportAvailabilityExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="AirportHeliportAvailabilityExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="cardinalDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="warningAdjacent" nillable="true" type="aixm:CodeYesNoType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="FireFightingServiceExtension" substitutionGroup="aixm:AbstractFireFightingServiceExtension" type="fns:FireFightingServiceExtensionType"/>
+  <xsd:complexType name="FireFightingServiceExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:FireFightingServiceExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="FireFightingServiceExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="operationalStatus" nillable="true" type="aixm:CodeStatusServiceType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="FuelExtension" substitutionGroup="aixm:AbstractFuelExtension" type="fns:FuelExtensionType"/>
+  <xsd:complexType name="FuelExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:FuelExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="FuelExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="deliveryMethod" nillable="true" type="fns:CodeDeliveryMethodType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="operationalStatus" nillable="true" type="aixm:CodeStatusServiceType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="TaxiwayExtension" substitutionGroup="aixm:AbstractTaxiwayExtension" type="fns:TaxiwayExtensionType"/>
+  <xsd:complexType name="TaxiwayExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:TaxiwayExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="TaxiwayExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:choice>
+        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Intersections_intersectedByTaxiway" nillable="true" type="aixm:TaxiwayPropertyType">
+        </xsd:element>
+        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Intersections_intersectedByRunway" nillable="true" type="aixm:RunwayPropertyType">
+        </xsd:element>
+        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Intersections_intersectedByApron" nillable="true" type="aixm:ApronPropertyType">
+        </xsd:element>
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="ApronAreaAvailabilityExtension" substitutionGroup="aixm:AbstractApronAreaAvailabilityExtension" type="fns:ApronAreaAvailabilityExtensionType"/>
+  <xsd:complexType name="ApronAreaAvailabilityExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:ApronAreaAvailabilityExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="ApronAreaAvailabilityExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="warningAdjacent" nillable="true" type="aixm:CodeYesNoType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="warningDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="warningSection" nillable="true" type="aixm:CodeApronSectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="warningBarrier" nillable="true" type="fns:CodeBarrierType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="warningLength" nillable="true" type="aixm:ValDistanceType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardinalDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:complexType name="AirportSignPropertyType">
+    <xsd:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+    <xsd:attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </xsd:complexType>
+  <xsd:element name="AirportSign" substitutionGroup="aixm:AbstractAIXMFeature" type="fns:AirportSignType">
+  </xsd:element>
+  <xsd:complexType name="AirportSignType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractAIXMFeatureType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="timeSlice" type="fns:AirportSignTimeSlicePropertyType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AirportSignTimeSlicePropertyType">
+    <xsd:sequence>
+      <xsd:element ref="fns:AirportSignTimeSlice"/>
+    </xsd:sequence>
+    <xsd:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+  </xsd:complexType>
+  <xsd:element name="AirportSignTimeSlice" substitutionGroup="gml:AbstractTimeSlice" type="fns:AirportSignTimeSliceType"/>
+  <xsd:complexType name="AirportSignTimeSliceType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractAIXMTimeSliceType">
+        <xsd:sequence>
+          <xsd:group ref="fns:AirportSignPropertyGroup"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="extension">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element ref="fns:AbstractAirportSignExtension"/>
+              </xsd:sequence>
+              <xsd:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="AirportSignPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="description" nillable="true" type="fns:CodeSignDescriptionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="signType" nillable="true" type="fns:CodeSignType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardinalDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="status" nillable="true" type="fns:CodeSignStatusType">
+      </xsd:element>
+      <xsd:choice>
+        <xsd:element maxOccurs="1" minOccurs="0" name="location_fixDesignatedPoint" nillable="true" type="aixm:DesignatedPointPropertyType">
+          <xsd:annotation>
+            <appinfo>
+              <gml:description>A selected point that may have references (distance and/or angle indications)</gml:description>
+            </appinfo>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element maxOccurs="1" minOccurs="0" name="location_navaidSystem" nillable="true" type="aixm:NavaidPropertyType">
+          <xsd:annotation>
+            <appinfo>
+              <gml:description>A navaid used as significant point.</gml:description>
+            </appinfo>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element maxOccurs="1" minOccurs="0" name="location_aimingPoint" nillable="true" type="aixm:TouchDownLiftOffPropertyType">
+          <xsd:annotation>
+            <appinfo>
+              <gml:description>The point at the centre of the TLOF.</gml:description>
+            </appinfo>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element maxOccurs="1" minOccurs="0" name="location_runwayPoint" nillable="true" type="aixm:RunwayCentrelinePointPropertyType">
+          <xsd:annotation>
+            <appinfo>
+              <gml:description>A designated point on the runway centreline.</gml:description>
+            </appinfo>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element maxOccurs="1" minOccurs="0" name="location_airportReferencePoint" nillable="true" type="aixm:AirportHeliportPropertyType">
+          <xsd:annotation>
+            <appinfo>
+              <gml:description>the point designated as the center of the airport.</gml:description>
+            </appinfo>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element maxOccurs="1" minOccurs="0" name="location_position" nillable="true" type="aixm:PointPropertyType">
+          <xsd:annotation>
+            <appinfo>
+              <gml:description>An unnamed point designated only with a latitude/longitude.</gml:description>
+            </appinfo>
+          </xsd:annotation>
+        </xsd:element>
+      </xsd:choice>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="annotation" nillable="true" type="aixm:NotePropertyType">
+      </xsd:element>
+      <xsd:element maxOccurs="1" minOccurs="0" name="associatedRunwayDirection" nillable="true" type="aixm:RunwayDirectionPropertyType">
+      </xsd:element>
+      <xsd:element maxOccurs="1" minOccurs="0" name="associatedRunway" nillable="true" type="aixm:RunwayPropertyType">
+      </xsd:element>
+      <xsd:element maxOccurs="1" minOccurs="0" name="associatedTaxiway" nillable="true" type="aixm:TaxiwayPropertyType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element abstract="true" name="AbstractAirportSignExtension" substitutionGroup="aixm:AbstractExtension" type="aixm:AbstractExtensionType"/>
+  <xsd:element name="RunwayDirectionLightSystemExtension" substitutionGroup="aixm:AbstractRunwayDirectionLightSystemExtension" type="fns:RunwayDirectionLightSystemExtensionType"/>
+  <xsd:complexType name="RunwayDirectionLightSystemExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:RunwayDirectionLightSystemExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="RunwayDirectionLightSystemExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="lightType" nillable="true" type="fns:CodeLightingType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="ManoeuvringAreaAvailabilityExtension" substitutionGroup="aixm:AbstractManoeuvringAreaAvailabilityExtension" type="fns:ManoeuvringAreaAvailabilityExtensionType"/>
+  <xsd:complexType name="ManoeuvringAreaAvailabilityExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:ManoeuvringAreaAvailabilityExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="ManoeuvringAreaAvailabilityExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="warningAdjacent" nillable="true" type="aixm:CodeYesNoType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardinalDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="warningSection" nillable="true" type="aixm:CodeApronSectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="warningBarrier" nillable="true" type="fns:CodeBarrierType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="atRunway" nillable="true" type="aixm:TextDesignatorType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="atTaxiway" nillable="true" type="aixm:TextDesignatorType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="warningLength" nillable="true" type="aixm:ValDistanceType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="warningDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="RunwayVisualRangeExtension" substitutionGroup="aixm:AbstractRunwayVisualRangeExtension" type="fns:RunwayVisualRangeExtensionType"/>
+  <xsd:complexType name="RunwayVisualRangeExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:RunwayVisualRangeExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="RunwayVisualRangeExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="operationalStatus" nillable="true" type="aixm:CodeStatusOperationsType">
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="annotation" nillable="true" type="aixm:NotePropertyType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="TaxiwayMarkingExtension" substitutionGroup="aixm:AbstractTaxiwayMarkingExtension" type="fns:TaxiwayMarkingExtensionType"/>
+  <xsd:complexType name="TaxiwayMarkingExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:TaxiwayMarkingExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="TaxiwayMarkingExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="type" nillable="true" type="fns:CodeTaxiwayMarkingType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="status" nillable="true" type="fns:CodeMarkingStatusType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardinalDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="annotation" nillable="true" type="aixm:NotePropertyType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="ServiceExtension" substitutionGroup="aixm:AbstractServiceExtension" type="fns:ServiceExtensionType"/>
+  <xsd:complexType name="ServiceExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:ServiceExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="ServiceExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="0" name="limit" nillable="true" type="fns:ServiceUsagePropertyType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:complexType name="ServiceUsagePropertyType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractAIXMPropertyType">
+        <xsd:sequence>
+          <xsd:element ref="fns:ServiceUsage"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ServiceUsage" substitutionGroup="aixm:AbstractUsageCondition" type="fns:ServiceUsageType">
+  </xsd:element>
+  <xsd:complexType name="ServiceUsageType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractUsageConditionType">
+        <xsd:sequence>
+          <xsd:group ref="aixm:UsageConditionPropertyGroup"/>
+          <xsd:group ref="fns:ServiceUsagePropertyGroup"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="extension">
+            <xsd:complexType>
+              <xsd:choice>
+                <xsd:element ref="aixm:AbstractUsageConditionExtension"/>
+                <xsd:element ref="fns:AbstractServiceUsageExtension"/>
+              </xsd:choice>
+              <xsd:attributeGroup ref="gml:OwnershipAttributeGroup"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="ServiceUsagePropertyGroup">
+    <xsd:sequence>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element abstract="true" name="AbstractServiceUsageExtension" substitutionGroup="aixm:AbstractExtension" type="aixm:AbstractExtensionType"/>
+  <xsd:element name="SurfaceContaminationExtension" substitutionGroup="aixm:AbstractSurfaceContaminationExtension" type="fns:SurfaceContaminationExtensionType"/>
+  <xsd:complexType name="SurfaceContaminationExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:SurfaceContaminationExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="SurfaceContaminationExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="coverage" nillable="true" type="fns:CodeCoverageType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="clearanceMethod" nillable="true" type="fns:CodeClearanceMethodType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="clearedWidth" nillable="true" type="aixm:ValDistanceType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="contaminantWidth" nillable="true" type="aixm:ValDistanceType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="RidgeExtension" substitutionGroup="aixm:AbstractRidgeExtension" type="fns:RidgeExtensionType"/>
+  <xsd:complexType name="RidgeExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:RidgeExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="RidgeExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="ridgeType" nillable="true" type="fns:CodeRidgeType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="SurfaceContaminationLayerExtension" substitutionGroup="aixm:AbstractSurfaceContaminationLayerExtension" type="fns:SurfaceContaminationLayerExtensionType"/>
+  <xsd:complexType name="SurfaceContaminationLayerExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:SurfaceContaminationLayerExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="SurfaceContaminationLayerExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="cardinalDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="contaminantLength" nillable="true" type="aixm:ValDistanceType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="SurfaceCharacteristicsExtension" substitutionGroup="aixm:AbstractSurfaceCharacteristicsExtension" type="fns:SurfaceCharacteristicsExtensionType"/>
+  <xsd:complexType name="SurfaceCharacteristicsExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:SurfaceCharacteristicsExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="SurfaceCharacteristicsExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="numerousDefects" nillable="true" type="aixm:CodeYesNoType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="crackWidth" nillable="true" type="aixm:ValDistanceType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="crackDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="crackLength" nillable="true" type="aixm:ValDistanceType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="softEdges" nillable="true" type="aixm:CodeYesNoType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="crackType" nillable="true" type="fns:CodeCrackType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="affectedDistance" nillable="true" type="aixm:ValDistanceType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardinalDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="frostHeave" nillable="true" type="fns:CodeFrostHeaveType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="soft" nillable="true" type="aixm:CodeYesNoType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="irregularSurface" nillable="true" type="aixm:CodeYesNoType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="runwayWarningSection" nillable="true" type="aixm:CodeRunwaySectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="apronWarningSection" nillable="true" type="aixm:CodeApronSectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="taxiwayWarningSection" nillable="true" type="aixm:CodeTaxiwaySectionType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="DeicingAreaExtension" substitutionGroup="aixm:AbstractDeicingAreaExtension" type="fns:DeicingAreaExtensionType"/>
+  <xsd:complexType name="DeicingAreaExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:DeicingAreaExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="DeicingAreaExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="name" nillable="true" type="aixm:TextNameType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="ApronMarkingExtension" substitutionGroup="aixm:AbstractApronMarkingExtension" type="fns:ApronMarkingExtensionType"/>
+  <xsd:complexType name="ApronMarkingExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:ApronMarkingExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="ApronMarkingExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="markingType" nillable="true" type="fns:CodeApronMarkingType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardinalDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="apronMarkingType" nillable="true" type="fns:CodeLandingMarkingType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="status" nillable="true" type="fns:CodeMarkingStatusType">
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="annotation" nillable="true" type="aixm:NotePropertyType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="RunwayMarkingExtension" substitutionGroup="aixm:AbstractRunwayMarkingExtension" type="fns:RunwayMarkingExtensionType"/>
+  <xsd:complexType name="RunwayMarkingExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:RunwayMarkingExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="RunwayMarkingExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="atRunway" nillable="true" type="aixm:TextDesignatorType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="atTaxiway" nillable="true" type="aixm:TextDesignatorType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="operationalStatus" nillable="true" type="aixm:CodeStatusOperationsType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="runwayMarkingType" nillable="true" type="aixm:CodeRunwayMarkingType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardinalDirection" nillable="true" type="aixm:CodeCardinalDirectionType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="AircraftCharacteristicExtension" substitutionGroup="aixm:AbstractAircraftCharacteristicExtension" type="fns:AircraftCharacteristicExtensionType"/>
+  <xsd:complexType name="AircraftCharacteristicExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:AircraftCharacteristicExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="AircraftCharacteristicExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="tailheightInterpretation" nillable="true" type="aixm:CodeValueInterpretationType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="tailheight" nillable="true" type="aixm:ValDistanceType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="AirportHeliportExtension" substitutionGroup="aixm:AbstractAirportHeliportExtension" type="fns:AirportHeliportExtensionType"/>
+  <xsd:complexType name="AirportHeliportExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:AirportHeliportExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="AirportHeliportExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="stateTerritory" nillable="true" type="aixm:TextNameType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="InstrumentApproachProcedureExtension" substitutionGroup="aixm:AbstractInstrumentApproachProcedureExtension" type="fns:InstrumentApproachProcedureExtensionType"/>
+  <xsd:complexType name="InstrumentApproachProcedureExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:InstrumentApproachProcedureExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="InstrumentApproachProcedureExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="printableVersionNumber" nillable="true" type="aixm:TextDesignatorType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="legacyControlNumber" nillable="true" type="aixm:TextDesignatorType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="NavaidExtension" substitutionGroup="aixm:AbstractNavaidExtension" type="fns:NavaidExtensionType"/>
+  <xsd:complexType name="NavaidExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:NavaidExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="NavaidExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="broadcastIdentifier" nillable="true" type="aixm:CodeNavaidDesignatorType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="stateTerritory" nillable="true" type="aixm:TextNameType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="DesignatedPointExtension" substitutionGroup="aixm:AbstractDesignatedPointExtension" type="fns:DesignatedPointExtensionType"/>
+  <xsd:complexType name="DesignatedPointExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:DesignatedPointExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="DesignatedPointExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="stateTerritory" nillable="true" type="aixm:TextNameType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="RouteSegmentExtension" substitutionGroup="aixm:AbstractRouteSegmentExtension" type="fns:RouteSegmentExtensionType"/>
+  <xsd:complexType name="RouteSegmentExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:RouteSegmentExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="RouteSegmentExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="stateTerritory" nillable="true" type="aixm:TextNameType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="ProcedureExtension" substitutionGroup="aixm:AbstractProcedureExtension" type="fns:ProcedureExtensionType"/>
+  <xsd:complexType name="ProcedureExtensionType">
+    <xsd:complexContent>
+      <xsd:extension base="aixm:AbstractExtensionType">
+        <xsd:sequence>
+          <xsd:group ref="fns:ProcedureExtensionPropertyGroup"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:group name="ProcedureExtensionPropertyGroup">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="printableVersionNumber" nillable="true" type="aixm:TextDesignatorType">
+      </xsd:element>
+      <xsd:element minOccurs="0" name="legacyControlNumber" nillable="true" type="aixm:TextDesignatorType">
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+</xsd:schema>

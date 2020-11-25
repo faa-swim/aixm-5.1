@@ -1,0 +1,2560 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.aixm.aero/schema/5.1/event" version="5.1-d" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:aixm="http://www.aixm.aero/schema/5.1" xmlns:event="http://www.aixm.aero/schema/5.1/event" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="gml.xsd"/>
+  <import namespace="http://www.w3.org/1999/xlink" schemaLocation="xlink.xsd"/>
+  <import namespace="http://www.aixm.aero/schema/5.1" schemaLocation="AIXM_Features.xsd"/>
+  <import namespace="http://www.aixm.aero/schema/5.1/extensions/FAA/FNSE" schemaLocation="FNSE_Features.xsd"/>
+  <include schemaLocation="Event_DataTypes.xsd"/>
+  <annotation>
+    <appinfo>
+      <gml:gmlProfileSchema>http://www.aixm.aero/schema/5.1/profile/gml4aixm.xsd</gml:gmlProfileSchema>
+    </appinfo>
+  </annotation>
+  <annotation>
+    <appinfo source="www.aixm.aero/schema/5.1/event">Event_Features.xsd</appinfo>
+  </annotation>
+  <annotation>
+    <documentation>Definition of classes that are specific to the Event Schema.</documentation>
+  </annotation>
+  <complexType name="EventPropertyType">
+    <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+  </complexType>
+  <element name="Event" substitutionGroup="aixm:AbstractAIXMFeature" type="event:EventType">
+    <annotation>
+      <appinfo>
+        <gml:description>A situation that affects one or more aeronautical features, by altering their properties, either temporarily or permanently.</gml:description>
+      </appinfo>
+    </annotation>
+  </element>
+  <complexType name="EventType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMFeatureType">
+        <sequence>
+          <element maxOccurs="unbounded" name="timeSlice" type="event:EventTimeSlicePropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="EventTimeSlicePropertyType">
+    <sequence>
+      <element ref="event:EventTimeSlice"/>
+    </sequence>
+    <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+  </complexType>
+  <element name="EventTimeSlice" substitutionGroup="gml:AbstractTimeSlice" type="event:EventTimeSliceType"/>
+  <complexType name="EventTimeSliceType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMTimeSliceType">
+        <sequence>
+          <group ref="event:EventPropertyGroup"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="extension">
+            <complexType>
+              <sequence>
+                <element ref="event:AbstractEventExtension"/>
+              </sequence>
+              <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="EventPropertyGroup">
+    <sequence>
+      <element minOccurs="0" name="name" nillable="true" type="aixm:TextNameType">
+        <annotation>
+          <appinfo>
+            <gml:description>A title or designator by which the event is referred to in aeronautical operations.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="encoding" nillable="true" type="event:CodeEventEncodingType">
+        <annotation>
+          <appinfo>
+            <gml:description>An indication of the extent by which the event information is provided as digital data versus free text notes.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="scenario" nillable="true" type="aixm:TextDesignatorType">
+        <annotation>
+          <appinfo>
+            <gml:description>The identifier of the scenario that was followed for the data encoding, including the version of the specification</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="revision" nillable="true" type="aixm:DateTimeType">
+        <annotation>
+          <appinfo>
+            <gml:description>The most recent date and time when the information encoded in the Event was updated.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element maxOccurs="unbounded" minOccurs="0" name="textNOTAM" nillable="true" type="event:NOTAMPropertyType"/>
+      <element minOccurs="0" name="causeEvent" nillable="true" type="event:EventPropertyType">
+        <annotation>
+          <appinfo>
+            <gml:description>The Event that has triggered the current Event.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element maxOccurs="unbounded" minOccurs="0" name="theNote" nillable="true" type="aixm:NotePropertyType"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="documentAIS" nillable="true" type="event:AIS_PublicationPropertyType"/>
+    </sequence>
+  </group>
+  <element abstract="true" name="AbstractEventExtension" substitutionGroup="aixm:AbstractExtension" type="aixm:AbstractExtensionType"/>
+  <complexType name="NOTAMPropertyType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMPropertyType">
+        <sequence>
+          <element ref="event:NOTAM"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <element name="NOTAM" type="event:NOTAMType">
+    <annotation>
+      <appinfo>
+        <gml:description>An Aeronautical Information Services message that is compiled with the event information in the form of a NOTAM compliant with the ICAO Standards and Recommended Practices and that eventually includes its translation into local non-ICAO formats.</gml:description>
+      </appinfo>
+    </annotation>
+  </element>
+  <complexType name="NOTAMType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMObjectType">
+        <sequence>
+          <group ref="event:NOTAMPropertyGroup"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="extension">
+            <complexType>
+              <sequence>
+                <element ref="event:AbstractNOTAMExtension"/>
+              </sequence>
+              <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="NOTAMPropertyGroup">
+    <sequence>
+      <element minOccurs="0" name="series" nillable="true" type="aixm:CodeUpperAlphaType">
+        <annotation>
+          <appinfo>
+            <gml:description>The identifier of the NOTAM Series, if aplicable.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="number" nillable="true" type="aixm:NoNumberType">
+        <annotation>
+          <appinfo>
+            <gml:description>The number of the NOTAM.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="year" nillable="true" type="aixm:DateYearType">
+        <annotation>
+          <appinfo>
+            <gml:description>The year associated with the NOTAM number.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="type" nillable="true" type="event:CodeNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The type of NOTAM message (new, cancel or replace).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="issued" nillable="true" type="aixm:DateTimeType">
+        <annotation>
+          <appinfo>
+            <gml:description>The date and time when the NOTAM was issued.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="referredSeries" nillable="true" type="aixm:CodeUpperAlphaType">
+        <annotation>
+          <appinfo>
+            <gml:description>The identifier of the series of the referred NOTAM, in case of NOTAM type R or C.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="referredNumber" nillable="true" type="aixm:NoNumberType">
+        <annotation>
+          <appinfo>
+            <gml:description>The number of the referred NOTAM, in case of NOTAM type R or C.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="referredYear" nillable="true" type="aixm:DateYearType">
+        <annotation>
+          <appinfo>
+            <gml:description>The year associated with the referred NOTAM, in case of NOTAM type R or C.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="affectedFIR" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The ICAO location indicator of affected FIR or, if applicable to more than one FIR within a State, the first two letters of the ICAO location indicator of a State plus "XX"</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="selectionCode" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The 5 letter Q code of the NOTAM.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="traffic" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>Type of traffic affected by NOTAM (Q line).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="purpose" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>Purpose of the NOTAM (Q line).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="scope" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The scope of the NOTAM (Q line).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="minimumFL" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The minimum flight level affected by the NOTAM (Q line).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="maximumFL" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The maximum flight level affected by the NOTAM (Q line).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="coordinates" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>A lat/long position that links the NOTAM to a geographical position - 11 characters, rounded up or down to the nearest minute (Q line).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="radius" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>An estimated radius of influence for the NOTAM in Nautical Miles, around the position indicated by the "coordinates" attribute (Q line).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="location" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The NOTAM location (item A).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="effectiveStart" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The start day and time when the NOTAM becomes effective (item B).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="effectiveEnd" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The end day and time when the NOTAM stops being effective (item C).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="schedule" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The schedule of the NOTAM (item D).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="text" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The NOTAM text (item E).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="lowerLimit" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The lower limit of the NOTAM (item F).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="upperLimit" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The lower limit of the NOTAM (item G).</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="publisherNOF" nillable="true" type="aixm:UnitPropertyType">
+        <annotation>
+          <appinfo>
+            <gml:description>The NOTAM Office (Unit) that has issued the NOTAM.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element maxOccurs="unbounded" minOccurs="0" name="translation" nillable="true" type="event:NOTAMTranslationPropertyType">
+        <annotation>
+          <appinfo>
+            <gml:description>A translation of the NOTAM in a local language or in a local format.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+    </sequence>
+  </group>
+  <element abstract="true" name="AbstractNOTAMExtension" substitutionGroup="aixm:AbstractExtension" type="aixm:AbstractExtensionType"/>
+  <complexType name="AIS_PublicationPropertyType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMPropertyType">
+        <sequence>
+          <element ref="event:AIS_Publication"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <element name="AIS_Publication" type="event:AIS_PublicationType">
+    <annotation>
+      <appinfo>
+        <gml:description>An Aeronautical Information Service product that is compiled with the event information in the form of document compliant with the ICAO Standards and Recommended Practices.</gml:description>
+      </appinfo>
+    </annotation>
+  </element>
+  <complexType name="AIS_PublicationType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMObjectType">
+        <sequence>
+          <group ref="event:AIS_PublicationPropertyGroup"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="extension">
+            <complexType>
+              <sequence>
+                <element ref="event:AbstractAIS_PublicationExtension"/>
+              </sequence>
+              <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AIS_PublicationPropertyGroup">
+    <sequence>
+      <element minOccurs="0" name="type" nillable="true" type="event:CodeAISPublicationType">
+        <annotation>
+          <appinfo>
+            <gml:description>The type of AIS document that contains the information about the event.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="series" nillable="true" type="aixm:CodeUpperAlphaType">
+        <annotation>
+          <appinfo>
+            <gml:description>The identifier of the document series, if aplicable.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="number" nillable="true" type="aixm:NoNumberType">
+        <annotation>
+          <appinfo>
+            <gml:description>The number of the document, if applicable.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="year" nillable="true" type="aixm:DateYearType">
+        <annotation>
+          <appinfo>
+            <gml:description>The year associated with the document number.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="issued" nillable="true" type="aixm:DateTimeType">
+        <annotation>
+          <appinfo>
+            <gml:description>The date and time when the document was issued.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="effectiveStart" nillable="true" type="aixm:DateTimeType">
+        <annotation>
+          <appinfo>
+            <gml:description>The start day and time when the document becomes effective.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="effectiveEnd" nillable="true" type="aixm:DateTimeType">
+        <annotation>
+          <appinfo>
+            <gml:description>The end day and time when the document stops being effective.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="content" nillable="true" type="aixm:XHTMLType">
+        <annotation>
+          <appinfo>
+            <gml:description>The content of the document.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="publisher" nillable="true" type="aixm:UnitPropertyType">
+        <annotation>
+          <appinfo>
+            <gml:description>The AIS Office that has published the document.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+    </sequence>
+  </group>
+  <element abstract="true" name="AbstractAIS_PublicationExtension" substitutionGroup="aixm:AbstractExtension" type="aixm:AbstractExtensionType"/>
+  <complexType name="NOTAMTranslationPropertyType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMPropertyType">
+        <sequence>
+          <element ref="event:NOTAMTranslation"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <element name="NOTAMTranslation" type="event:NOTAMTranslationType"/>
+  <complexType name="NOTAMTranslationType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMObjectType">
+        <sequence>
+          <group ref="event:NOTAMTranslationPropertyGroup"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="extension">
+            <complexType>
+              <sequence>
+                <element ref="event:AbstractNOTAMTranslationExtension"/>
+              </sequence>
+              <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="NOTAMTranslationPropertyGroup">
+    <sequence>
+      <element minOccurs="0" name="type" nillable="true" type="event:CodeNOTAMTranslationType">
+        <annotation>
+          <appinfo>
+            <gml:description>An indication of the extent by which the translation duplicates the NOTAM.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="language" nillable="true" type="aixm:CodeLanguageType">
+        <annotation>
+          <appinfo>
+            <gml:description>A code indicating the language in which the translation is provided.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="simpleText" nillable="true" type="event:TextNOTAMType">
+        <annotation>
+          <appinfo>
+            <gml:description>The NOTAM translation using only the character set supported for AFTN messages.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="formattedText" nillable="true" type="aixm:XHTMLType">
+        <annotation>
+          <appinfo>
+            <gml:description>The NOTAM translation augmented with formating elements that facilitate the reading by an end user.</gml:description>
+          </appinfo>
+        </annotation>
+      </element>
+    </sequence>
+  </group>
+  <element abstract="true" name="AbstractNOTAMTranslationExtension" substitutionGroup="aixm:AbstractExtension" type="aixm:AbstractExtensionType"/>
+  <!--#######################################################################
+This Application Schema below is auto-generated from the core schema AIXM_Features.xsd.
+#######################################################################-->
+  <element name="RunwayProtectAreaExtension" substitutionGroup="aixm:AbstractRunwayProtectAreaExtension" type="event:RunwayProtectAreaExtensionType"/>
+  <complexType name="RunwayProtectAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RunwayProtectAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RunwayProtectAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RunwayDirectionExtension" substitutionGroup="aixm:AbstractRunwayDirectionExtension" type="event:RunwayDirectionExtensionType"/>
+  <complexType name="RunwayDirectionExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RunwayDirectionExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RunwayDirectionExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RunwayCentrelinePointExtension" substitutionGroup="aixm:AbstractRunwayCentrelinePointExtension" type="event:RunwayCentrelinePointExtensionType"/>
+  <complexType name="RunwayCentrelinePointExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RunwayCentrelinePointExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RunwayCentrelinePointExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RunwayExtension" substitutionGroup="aixm:AbstractRunwayExtension" type="event:RunwayExtensionType"/>
+  <complexType name="RunwayExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RunwayExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RunwayExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ArrestingGearExtension" substitutionGroup="aixm:AbstractArrestingGearExtension" type="event:ArrestingGearExtensionType"/>
+  <complexType name="ArrestingGearExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ArrestingGearExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ArrestingGearExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RunwayElementExtension" substitutionGroup="aixm:AbstractRunwayElementExtension" type="event:RunwayElementExtensionType"/>
+  <complexType name="RunwayElementExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RunwayElementExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RunwayElementExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="VisualGlideSlopeIndicatorExtension" substitutionGroup="aixm:AbstractVisualGlideSlopeIndicatorExtension" type="event:VisualGlideSlopeIndicatorExtensionType"/>
+  <complexType name="VisualGlideSlopeIndicatorExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:VisualGlideSlopeIndicatorExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="VisualGlideSlopeIndicatorExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RunwayVisualRangeExtension" substitutionGroup="aixm:AbstractRunwayVisualRangeExtension" type="event:RunwayVisualRangeExtensionType"/>
+  <complexType name="RunwayVisualRangeExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RunwayVisualRangeExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RunwayVisualRangeExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RunwayBlastPadExtension" substitutionGroup="aixm:AbstractRunwayBlastPadExtension" type="event:RunwayBlastPadExtensionType"/>
+  <complexType name="RunwayBlastPadExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RunwayBlastPadExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RunwayBlastPadExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TaxiHoldingPositionExtension" substitutionGroup="aixm:AbstractTaxiHoldingPositionExtension" type="event:TaxiHoldingPositionExtensionType"/>
+  <complexType name="TaxiHoldingPositionExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TaxiHoldingPositionExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TaxiHoldingPositionExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TaxiwayExtension" substitutionGroup="aixm:AbstractTaxiwayExtension" type="event:TaxiwayExtensionType"/>
+  <complexType name="TaxiwayExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TaxiwayExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TaxiwayExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TaxiwayElementExtension" substitutionGroup="aixm:AbstractTaxiwayElementExtension" type="event:TaxiwayElementExtensionType"/>
+  <complexType name="TaxiwayElementExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TaxiwayElementExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TaxiwayElementExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="GuidanceLineExtension" substitutionGroup="aixm:AbstractGuidanceLineExtension" type="event:GuidanceLineExtensionType"/>
+  <complexType name="GuidanceLineExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:GuidanceLineExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="GuidanceLineExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ApronExtension" substitutionGroup="aixm:AbstractApronExtension" type="event:ApronExtensionType"/>
+  <complexType name="ApronExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ApronExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ApronExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ApronElementExtension" substitutionGroup="aixm:AbstractApronElementExtension" type="event:ApronElementExtensionType"/>
+  <complexType name="ApronElementExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ApronElementExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ApronElementExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AircraftStandExtension" substitutionGroup="aixm:AbstractAircraftStandExtension" type="event:AircraftStandExtensionType"/>
+  <complexType name="AircraftStandExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AircraftStandExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AircraftStandExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RoadExtension" substitutionGroup="aixm:AbstractRoadExtension" type="event:RoadExtensionType"/>
+  <complexType name="RoadExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RoadExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RoadExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="DeicingAreaExtension" substitutionGroup="aixm:AbstractDeicingAreaExtension" type="event:DeicingAreaExtensionType"/>
+  <complexType name="DeicingAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:DeicingAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="DeicingAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="PassengerLoadingBridgeExtension" substitutionGroup="aixm:AbstractPassengerLoadingBridgeExtension" type="event:PassengerLoadingBridgeExtensionType"/>
+  <complexType name="PassengerLoadingBridgeExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:PassengerLoadingBridgeExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="PassengerLoadingBridgeExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TouchDownLiftOffSafeAreaExtension" substitutionGroup="aixm:AbstractTouchDownLiftOffSafeAreaExtension" type="event:TouchDownLiftOffSafeAreaExtensionType"/>
+  <complexType name="TouchDownLiftOffSafeAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TouchDownLiftOffSafeAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TouchDownLiftOffSafeAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TouchDownLiftOffExtension" substitutionGroup="aixm:AbstractTouchDownLiftOffExtension" type="event:TouchDownLiftOffExtensionType"/>
+  <complexType name="TouchDownLiftOffExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TouchDownLiftOffExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TouchDownLiftOffExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="GroundLightSystemExtension" substitutionGroup="aixm:AbstractGroundLightSystemExtension" type="event:GroundLightSystemExtensionType"/>
+  <complexType name="GroundLightSystemExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:GroundLightSystemExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="GroundLightSystemExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ApronLightSystemExtension" substitutionGroup="aixm:AbstractApronLightSystemExtension" type="event:ApronLightSystemExtensionType"/>
+  <complexType name="ApronLightSystemExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ApronLightSystemExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ApronLightSystemExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TaxiwayLightSystemExtension" substitutionGroup="aixm:AbstractTaxiwayLightSystemExtension" type="event:TaxiwayLightSystemExtensionType"/>
+  <complexType name="TaxiwayLightSystemExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TaxiwayLightSystemExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TaxiwayLightSystemExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RunwayDirectionLightSystemExtension" substitutionGroup="aixm:AbstractRunwayDirectionLightSystemExtension" type="event:RunwayDirectionLightSystemExtensionType"/>
+  <complexType name="RunwayDirectionLightSystemExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RunwayDirectionLightSystemExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RunwayDirectionLightSystemExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TouchDownLiftOffLightSystemExtension" substitutionGroup="aixm:AbstractTouchDownLiftOffLightSystemExtension" type="event:TouchDownLiftOffLightSystemExtensionType"/>
+  <complexType name="TouchDownLiftOffLightSystemExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TouchDownLiftOffLightSystemExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TouchDownLiftOffLightSystemExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="GuidanceLineLightSystemExtension" substitutionGroup="aixm:AbstractGuidanceLineLightSystemExtension" type="event:GuidanceLineLightSystemExtensionType"/>
+  <complexType name="GuidanceLineLightSystemExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:GuidanceLineLightSystemExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="GuidanceLineLightSystemExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RunwayProtectAreaLightSystemExtension" substitutionGroup="aixm:AbstractRunwayProtectAreaLightSystemExtension" type="event:RunwayProtectAreaLightSystemExtensionType"/>
+  <complexType name="RunwayProtectAreaLightSystemExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RunwayProtectAreaLightSystemExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RunwayProtectAreaLightSystemExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TaxiHoldingPositionLightSystemExtension" substitutionGroup="aixm:AbstractTaxiHoldingPositionLightSystemExtension" type="event:TaxiHoldingPositionLightSystemExtensionType"/>
+  <complexType name="TaxiHoldingPositionLightSystemExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TaxiHoldingPositionLightSystemExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TaxiHoldingPositionLightSystemExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ApproachLightingSystemExtension" substitutionGroup="aixm:AbstractApproachLightingSystemExtension" type="event:ApproachLightingSystemExtensionType"/>
+  <complexType name="ApproachLightingSystemExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ApproachLightingSystemExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ApproachLightingSystemExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="MarkingExtension" substitutionGroup="aixm:AbstractMarkingExtension" type="event:MarkingExtensionType"/>
+  <complexType name="MarkingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:MarkingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="MarkingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TaxiwayMarkingExtension" substitutionGroup="aixm:AbstractTaxiwayMarkingExtension" type="event:TaxiwayMarkingExtensionType"/>
+  <complexType name="TaxiwayMarkingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TaxiwayMarkingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TaxiwayMarkingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ApronMarkingExtension" substitutionGroup="aixm:AbstractApronMarkingExtension" type="event:ApronMarkingExtensionType"/>
+  <complexType name="ApronMarkingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ApronMarkingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ApronMarkingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirportProtectionAreaMarkingExtension" substitutionGroup="aixm:AbstractAirportProtectionAreaMarkingExtension" type="event:AirportProtectionAreaMarkingExtensionType"/>
+  <complexType name="AirportProtectionAreaMarkingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirportProtectionAreaMarkingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirportProtectionAreaMarkingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TouchDownLiftOffMarkingExtension" substitutionGroup="aixm:AbstractTouchDownLiftOffMarkingExtension" type="event:TouchDownLiftOffMarkingExtensionType"/>
+  <complexType name="TouchDownLiftOffMarkingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TouchDownLiftOffMarkingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TouchDownLiftOffMarkingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RunwayMarkingExtension" substitutionGroup="aixm:AbstractRunwayMarkingExtension" type="event:RunwayMarkingExtensionType"/>
+  <complexType name="RunwayMarkingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RunwayMarkingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RunwayMarkingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="GuidanceLineMarkingExtension" substitutionGroup="aixm:AbstractGuidanceLineMarkingExtension" type="event:GuidanceLineMarkingExtensionType"/>
+  <complexType name="GuidanceLineMarkingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:GuidanceLineMarkingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="GuidanceLineMarkingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="DeicingAreaMarkingExtension" substitutionGroup="aixm:AbstractDeicingAreaMarkingExtension" type="event:DeicingAreaMarkingExtensionType"/>
+  <complexType name="DeicingAreaMarkingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:DeicingAreaMarkingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="DeicingAreaMarkingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TaxiHoldingPositionMarkingExtension" substitutionGroup="aixm:AbstractTaxiHoldingPositionMarkingExtension" type="event:TaxiHoldingPositionMarkingExtensionType"/>
+  <complexType name="TaxiHoldingPositionMarkingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TaxiHoldingPositionMarkingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TaxiHoldingPositionMarkingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="StandMarkingExtension" substitutionGroup="aixm:AbstractStandMarkingExtension" type="event:StandMarkingExtensionType"/>
+  <complexType name="StandMarkingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:StandMarkingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="StandMarkingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="FloatingDockSiteExtension" substitutionGroup="aixm:AbstractFloatingDockSiteExtension" type="event:FloatingDockSiteExtensionType"/>
+  <complexType name="FloatingDockSiteExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:FloatingDockSiteExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="FloatingDockSiteExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="MarkingBuoyExtension" substitutionGroup="aixm:AbstractMarkingBuoyExtension" type="event:MarkingBuoyExtensionType"/>
+  <complexType name="MarkingBuoyExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:MarkingBuoyExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="MarkingBuoyExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SeaplaneLandingAreaExtension" substitutionGroup="aixm:AbstractSeaplaneLandingAreaExtension" type="event:SeaplaneLandingAreaExtensionType"/>
+  <complexType name="SeaplaneLandingAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SeaplaneLandingAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SeaplaneLandingAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SeaplaneRampSiteExtension" substitutionGroup="aixm:AbstractSeaplaneRampSiteExtension" type="event:SeaplaneRampSiteExtensionType"/>
+  <complexType name="SeaplaneRampSiteExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SeaplaneRampSiteExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SeaplaneRampSiteExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="WorkAreaExtension" substitutionGroup="aixm:AbstractWorkAreaExtension" type="event:WorkAreaExtensionType"/>
+  <complexType name="WorkAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:WorkAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="WorkAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SurveyControlPointExtension" substitutionGroup="aixm:AbstractSurveyControlPointExtension" type="event:SurveyControlPointExtensionType"/>
+  <complexType name="SurveyControlPointExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SurveyControlPointExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SurveyControlPointExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="NonMovementAreaExtension" substitutionGroup="aixm:AbstractNonMovementAreaExtension" type="event:NonMovementAreaExtensionType"/>
+  <complexType name="NonMovementAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:NonMovementAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="NonMovementAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirportHeliportProtectionAreaExtension" substitutionGroup="aixm:AbstractAirportHeliportProtectionAreaExtension" type="event:AirportHeliportProtectionAreaExtensionType"/>
+  <complexType name="AirportHeliportProtectionAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirportHeliportProtectionAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirportHeliportProtectionAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirportHeliportCollocationExtension" substitutionGroup="aixm:AbstractAirportHeliportCollocationExtension" type="event:AirportHeliportCollocationExtensionType"/>
+  <complexType name="AirportHeliportCollocationExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirportHeliportCollocationExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirportHeliportCollocationExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirportHeliportExtension" substitutionGroup="aixm:AbstractAirportHeliportExtension" type="event:AirportHeliportExtensionType"/>
+  <complexType name="AirportHeliportExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirportHeliportExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirportHeliportExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AltimeterSourceExtension" substitutionGroup="aixm:AbstractAltimeterSourceExtension" type="event:AltimeterSourceExtensionType"/>
+  <complexType name="AltimeterSourceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AltimeterSourceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AltimeterSourceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirportHotSpotExtension" substitutionGroup="aixm:AbstractAirportHotSpotExtension" type="event:AirportHotSpotExtensionType"/>
+  <complexType name="AirportHotSpotExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirportHotSpotExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirportHotSpotExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AuthorityForAirspaceExtension" substitutionGroup="aixm:AbstractAuthorityForAirspaceExtension" type="event:AuthorityForAirspaceExtensionType"/>
+  <complexType name="AuthorityForAirspaceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AuthorityForAirspaceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AuthorityForAirspaceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirspaceExtension" substitutionGroup="aixm:AbstractAirspaceExtension" type="event:AirspaceExtensionType"/>
+  <complexType name="AirspaceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirspaceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirspaceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="GeoBorderExtension" substitutionGroup="aixm:AbstractGeoBorderExtension" type="event:GeoBorderExtensionType"/>
+  <complexType name="GeoBorderExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:GeoBorderExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="GeoBorderExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="PrecisionApproachRadarExtension" substitutionGroup="aixm:AbstractPrecisionApproachRadarExtension" type="event:PrecisionApproachRadarExtensionType"/>
+  <complexType name="PrecisionApproachRadarExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:PrecisionApproachRadarExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="PrecisionApproachRadarExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="PrimarySurveillanceRadarExtension" substitutionGroup="aixm:AbstractPrimarySurveillanceRadarExtension" type="event:PrimarySurveillanceRadarExtensionType"/>
+  <complexType name="PrimarySurveillanceRadarExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:PrimarySurveillanceRadarExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="PrimarySurveillanceRadarExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RadarEquipmentExtension" substitutionGroup="aixm:AbstractRadarEquipmentExtension" type="event:RadarEquipmentExtensionType"/>
+  <complexType name="RadarEquipmentExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RadarEquipmentExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RadarEquipmentExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RadarSystemExtension" substitutionGroup="aixm:AbstractRadarSystemExtension" type="event:RadarSystemExtensionType"/>
+  <complexType name="RadarSystemExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RadarSystemExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RadarSystemExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SecondarySurveillanceRadarExtension" substitutionGroup="aixm:AbstractSecondarySurveillanceRadarExtension" type="event:SecondarySurveillanceRadarExtensionType"/>
+  <complexType name="SecondarySurveillanceRadarExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SecondarySurveillanceRadarExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SecondarySurveillanceRadarExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SurveillanceRadarExtension" substitutionGroup="aixm:AbstractSurveillanceRadarExtension" type="event:SurveillanceRadarExtensionType"/>
+  <complexType name="SurveillanceRadarExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SurveillanceRadarExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SurveillanceRadarExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="HoldingAssessmentExtension" substitutionGroup="aixm:AbstractHoldingAssessmentExtension" type="event:HoldingAssessmentExtensionType"/>
+  <complexType name="HoldingAssessmentExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:HoldingAssessmentExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="HoldingAssessmentExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="StandardLevelTableExtension" substitutionGroup="aixm:AbstractStandardLevelTableExtension" type="event:StandardLevelTableExtensionType"/>
+  <complexType name="StandardLevelTableExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:StandardLevelTableExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="StandardLevelTableExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="StandardLevelSectorExtension" substitutionGroup="aixm:AbstractStandardLevelSectorExtension" type="event:StandardLevelSectorExtensionType"/>
+  <complexType name="StandardLevelSectorExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:StandardLevelSectorExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="StandardLevelSectorExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="StandardLevelColumnExtension" substitutionGroup="aixm:AbstractStandardLevelColumnExtension" type="event:StandardLevelColumnExtensionType"/>
+  <complexType name="StandardLevelColumnExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:StandardLevelColumnExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="StandardLevelColumnExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RadioFrequencyAreaExtension" substitutionGroup="aixm:AbstractRadioFrequencyAreaExtension" type="event:RadioFrequencyAreaExtensionType"/>
+  <complexType name="RadioFrequencyAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RadioFrequencyAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RadioFrequencyAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SpecialDateExtension" substitutionGroup="aixm:AbstractSpecialDateExtension" type="event:SpecialDateExtensionType"/>
+  <complexType name="SpecialDateExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SpecialDateExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SpecialDateExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ServiceExtension" substitutionGroup="aixm:AbstractServiceExtension" type="event:ServiceExtensionType"/>
+  <complexType name="ServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RadioCommunicationChannelExtension" substitutionGroup="aixm:AbstractRadioCommunicationChannelExtension" type="event:RadioCommunicationChannelExtensionType"/>
+  <complexType name="RadioCommunicationChannelExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RadioCommunicationChannelExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RadioCommunicationChannelExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="PilotControlledLightingExtension" substitutionGroup="aixm:AbstractPilotControlledLightingExtension" type="event:PilotControlledLightingExtensionType"/>
+  <complexType name="PilotControlledLightingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:PilotControlledLightingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="PilotControlledLightingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="InformationServiceExtension" substitutionGroup="aixm:AbstractInformationServiceExtension" type="event:InformationServiceExtensionType"/>
+  <complexType name="InformationServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:InformationServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="InformationServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TrafficSeparationServiceExtension" substitutionGroup="aixm:AbstractTrafficSeparationServiceExtension" type="event:TrafficSeparationServiceExtensionType"/>
+  <complexType name="TrafficSeparationServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TrafficSeparationServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TrafficSeparationServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="GroundTrafficControlServiceExtension" substitutionGroup="aixm:AbstractGroundTrafficControlServiceExtension" type="event:GroundTrafficControlServiceExtensionType"/>
+  <complexType name="GroundTrafficControlServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:GroundTrafficControlServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="GroundTrafficControlServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirTrafficControlServiceExtension" substitutionGroup="aixm:AbstractAirTrafficControlServiceExtension" type="event:AirTrafficControlServiceExtensionType"/>
+  <complexType name="AirTrafficControlServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirTrafficControlServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirTrafficControlServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirTrafficManagementServiceExtension" substitutionGroup="aixm:AbstractAirTrafficManagementServiceExtension" type="event:AirTrafficManagementServiceExtensionType"/>
+  <complexType name="AirTrafficManagementServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirTrafficManagementServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirTrafficManagementServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SearchRescueServiceExtension" substitutionGroup="aixm:AbstractSearchRescueServiceExtension" type="event:SearchRescueServiceExtensionType"/>
+  <complexType name="SearchRescueServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SearchRescueServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SearchRescueServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirportGroundServiceExtension" substitutionGroup="aixm:AbstractAirportGroundServiceExtension" type="event:AirportGroundServiceExtensionType"/>
+  <complexType name="AirportGroundServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirportGroundServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirportGroundServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="PassengerServiceExtension" substitutionGroup="aixm:AbstractPassengerServiceExtension" type="event:PassengerServiceExtensionType"/>
+  <complexType name="PassengerServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:PassengerServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="PassengerServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AircraftGroundServiceExtension" substitutionGroup="aixm:AbstractAircraftGroundServiceExtension" type="event:AircraftGroundServiceExtensionType"/>
+  <complexType name="AircraftGroundServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AircraftGroundServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AircraftGroundServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="FireFightingServiceExtension" substitutionGroup="aixm:AbstractFireFightingServiceExtension" type="event:FireFightingServiceExtensionType"/>
+  <complexType name="FireFightingServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:FireFightingServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="FireFightingServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirportClearanceServiceExtension" substitutionGroup="aixm:AbstractAirportClearanceServiceExtension" type="event:AirportClearanceServiceExtensionType"/>
+  <complexType name="AirportClearanceServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirportClearanceServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirportClearanceServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirportSuppliesServiceExtension" substitutionGroup="aixm:AbstractAirportSuppliesServiceExtension" type="event:AirportSuppliesServiceExtensionType"/>
+  <complexType name="AirportSuppliesServiceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirportSuppliesServiceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirportSuppliesServiceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AngleIndicationExtension" substitutionGroup="aixm:AbstractAngleIndicationExtension" type="event:AngleIndicationExtensionType"/>
+  <complexType name="AngleIndicationExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AngleIndicationExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AngleIndicationExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="DistanceIndicationExtension" substitutionGroup="aixm:AbstractDistanceIndicationExtension" type="event:DistanceIndicationExtensionType"/>
+  <complexType name="DistanceIndicationExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:DistanceIndicationExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="DistanceIndicationExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AzimuthExtension" substitutionGroup="aixm:AbstractAzimuthExtension" type="event:AzimuthExtensionType"/>
+  <complexType name="AzimuthExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AzimuthExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AzimuthExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="CheckpointINSExtension" substitutionGroup="aixm:AbstractCheckpointINSExtension" type="event:CheckpointINSExtensionType"/>
+  <complexType name="CheckpointINSExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:CheckpointINSExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="CheckpointINSExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="CheckpointVORExtension" substitutionGroup="aixm:AbstractCheckpointVORExtension" type="event:CheckpointVORExtensionType"/>
+  <complexType name="CheckpointVORExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:CheckpointVORExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="CheckpointVORExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="DMEExtension" substitutionGroup="aixm:AbstractDMEExtension" type="event:DMEExtensionType"/>
+  <complexType name="DMEExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:DMEExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="DMEExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ElevationExtension" substitutionGroup="aixm:AbstractElevationExtension" type="event:ElevationExtensionType"/>
+  <complexType name="ElevationExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ElevationExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ElevationExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="GlidepathExtension" substitutionGroup="aixm:AbstractGlidepathExtension" type="event:GlidepathExtensionType"/>
+  <complexType name="GlidepathExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:GlidepathExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="GlidepathExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="LocalizerExtension" substitutionGroup="aixm:AbstractLocalizerExtension" type="event:LocalizerExtensionType"/>
+  <complexType name="LocalizerExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:LocalizerExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="LocalizerExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="MarkerBeaconExtension" substitutionGroup="aixm:AbstractMarkerBeaconExtension" type="event:MarkerBeaconExtensionType"/>
+  <complexType name="MarkerBeaconExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:MarkerBeaconExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="MarkerBeaconExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="NavaidExtension" substitutionGroup="aixm:AbstractNavaidExtension" type="event:NavaidExtensionType"/>
+  <complexType name="NavaidExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:NavaidExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="NavaidExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="NavaidEquipmentExtension" substitutionGroup="aixm:AbstractNavaidEquipmentExtension" type="event:NavaidEquipmentExtensionType"/>
+  <complexType name="NavaidEquipmentExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:NavaidEquipmentExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="NavaidEquipmentExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="NavigationSystemCheckpointExtension" substitutionGroup="aixm:AbstractNavigationSystemCheckpointExtension" type="event:NavigationSystemCheckpointExtensionType"/>
+  <complexType name="NavigationSystemCheckpointExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:NavigationSystemCheckpointExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="NavigationSystemCheckpointExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SDFExtension" substitutionGroup="aixm:AbstractSDFExtension" type="event:SDFExtensionType"/>
+  <complexType name="SDFExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SDFExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SDFExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="NDBExtension" substitutionGroup="aixm:AbstractNDBExtension" type="event:NDBExtensionType"/>
+  <complexType name="NDBExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:NDBExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="NDBExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SpecialNavigationStationExtension" substitutionGroup="aixm:AbstractSpecialNavigationStationExtension" type="event:SpecialNavigationStationExtensionType"/>
+  <complexType name="SpecialNavigationStationExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SpecialNavigationStationExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SpecialNavigationStationExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="VORExtension" substitutionGroup="aixm:AbstractVORExtension" type="event:VORExtensionType"/>
+  <complexType name="VORExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:VORExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="VORExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TACANExtension" substitutionGroup="aixm:AbstractTACANExtension" type="event:TACANExtensionType"/>
+  <complexType name="TACANExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TACANExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TACANExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SpecialNavigationSystemExtension" substitutionGroup="aixm:AbstractSpecialNavigationSystemExtension" type="event:SpecialNavigationSystemExtensionType"/>
+  <complexType name="SpecialNavigationSystemExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SpecialNavigationSystemExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SpecialNavigationSystemExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="DirectionFinderExtension" substitutionGroup="aixm:AbstractDirectionFinderExtension" type="event:DirectionFinderExtensionType"/>
+  <complexType name="DirectionFinderExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:DirectionFinderExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="DirectionFinderExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="DesignatedPointExtension" substitutionGroup="aixm:AbstractDesignatedPointExtension" type="event:DesignatedPointExtensionType"/>
+  <complexType name="DesignatedPointExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:DesignatedPointExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="DesignatedPointExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SignificantPointInAirspaceExtension" substitutionGroup="aixm:AbstractSignificantPointInAirspaceExtension" type="event:SignificantPointInAirspaceExtensionType"/>
+  <complexType name="SignificantPointInAirspaceExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SignificantPointInAirspaceExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SignificantPointInAirspaceExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AeronauticalGroundLightExtension" substitutionGroup="aixm:AbstractAeronauticalGroundLightExtension" type="event:AeronauticalGroundLightExtensionType"/>
+  <complexType name="AeronauticalGroundLightExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AeronauticalGroundLightExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AeronauticalGroundLightExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="OrganisationAuthorityExtension" substitutionGroup="aixm:AbstractOrganisationAuthorityExtension" type="event:OrganisationAuthorityExtensionType"/>
+  <complexType name="OrganisationAuthorityExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:OrganisationAuthorityExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="OrganisationAuthorityExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="UnitExtension" substitutionGroup="aixm:AbstractUnitExtension" type="event:UnitExtensionType"/>
+  <complexType name="UnitExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:UnitExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="UnitExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ObstacleAreaExtension" substitutionGroup="aixm:AbstractObstacleAreaExtension" type="event:ObstacleAreaExtensionType"/>
+  <complexType name="ObstacleAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ObstacleAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ObstacleAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="VerticalStructureExtension" substitutionGroup="aixm:AbstractVerticalStructureExtension" type="event:VerticalStructureExtensionType"/>
+  <complexType name="VerticalStructureExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:VerticalStructureExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="VerticalStructureExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="CirclingAreaExtension" substitutionGroup="aixm:AbstractCirclingAreaExtension" type="event:CirclingAreaExtensionType"/>
+  <complexType name="CirclingAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:CirclingAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="CirclingAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="TerminalArrivalAreaExtension" substitutionGroup="aixm:AbstractTerminalArrivalAreaExtension" type="event:TerminalArrivalAreaExtensionType"/>
+  <complexType name="TerminalArrivalAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:TerminalArrivalAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="TerminalArrivalAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="InstrumentApproachProcedureExtension" substitutionGroup="aixm:AbstractInstrumentApproachProcedureExtension" type="event:InstrumentApproachProcedureExtensionType"/>
+  <complexType name="InstrumentApproachProcedureExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:InstrumentApproachProcedureExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="InstrumentApproachProcedureExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="StandardInstrumentDepartureExtension" substitutionGroup="aixm:AbstractStandardInstrumentDepartureExtension" type="event:StandardInstrumentDepartureExtensionType"/>
+  <complexType name="StandardInstrumentDepartureExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:StandardInstrumentDepartureExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="StandardInstrumentDepartureExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="NavigationAreaExtension" substitutionGroup="aixm:AbstractNavigationAreaExtension" type="event:NavigationAreaExtensionType"/>
+  <complexType name="NavigationAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:NavigationAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="NavigationAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="StandardInstrumentArrivalExtension" substitutionGroup="aixm:AbstractStandardInstrumentArrivalExtension" type="event:StandardInstrumentArrivalExtensionType"/>
+  <complexType name="StandardInstrumentArrivalExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:StandardInstrumentArrivalExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="StandardInstrumentArrivalExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ProcedureExtension" substitutionGroup="aixm:AbstractProcedureExtension" type="event:ProcedureExtensionType"/>
+  <complexType name="ProcedureExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ProcedureExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ProcedureExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="NavigationAreaRestrictionExtension" substitutionGroup="aixm:AbstractNavigationAreaRestrictionExtension" type="event:NavigationAreaRestrictionExtensionType"/>
+  <complexType name="NavigationAreaRestrictionExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:NavigationAreaRestrictionExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="NavigationAreaRestrictionExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SegmentLegExtension" substitutionGroup="aixm:AbstractSegmentLegExtension" type="event:SegmentLegExtensionType"/>
+  <complexType name="SegmentLegExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SegmentLegExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SegmentLegExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ApproachLegExtension" substitutionGroup="aixm:AbstractApproachLegExtension" type="event:ApproachLegExtensionType"/>
+  <complexType name="ApproachLegExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ApproachLegExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ApproachLegExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ArrivalFeederLegExtension" substitutionGroup="aixm:AbstractArrivalFeederLegExtension" type="event:ArrivalFeederLegExtensionType"/>
+  <complexType name="ArrivalFeederLegExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ArrivalFeederLegExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ArrivalFeederLegExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ArrivalLegExtension" substitutionGroup="aixm:AbstractArrivalLegExtension" type="event:ArrivalLegExtensionType"/>
+  <complexType name="ArrivalLegExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ArrivalLegExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ArrivalLegExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="DepartureLegExtension" substitutionGroup="aixm:AbstractDepartureLegExtension" type="event:DepartureLegExtensionType"/>
+  <complexType name="DepartureLegExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:DepartureLegExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="DepartureLegExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="FinalLegExtension" substitutionGroup="aixm:AbstractFinalLegExtension" type="event:FinalLegExtensionType"/>
+  <complexType name="FinalLegExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:FinalLegExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="FinalLegExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="InitialLegExtension" substitutionGroup="aixm:AbstractInitialLegExtension" type="event:InitialLegExtensionType"/>
+  <complexType name="InitialLegExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:InitialLegExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="InitialLegExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="IntermediateLegExtension" substitutionGroup="aixm:AbstractIntermediateLegExtension" type="event:IntermediateLegExtensionType"/>
+  <complexType name="IntermediateLegExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:IntermediateLegExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="IntermediateLegExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="MissedApproachLegExtension" substitutionGroup="aixm:AbstractMissedApproachLegExtension" type="event:MissedApproachLegExtensionType"/>
+  <complexType name="MissedApproachLegExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:MissedApproachLegExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="MissedApproachLegExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ProcedureDMEExtension" substitutionGroup="aixm:AbstractProcedureDMEExtension" type="event:ProcedureDMEExtensionType"/>
+  <complexType name="ProcedureDMEExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ProcedureDMEExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ProcedureDMEExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="SafeAltitudeAreaExtension" substitutionGroup="aixm:AbstractSafeAltitudeAreaExtension" type="event:SafeAltitudeAreaExtensionType"/>
+  <complexType name="SafeAltitudeAreaExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:SafeAltitudeAreaExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="SafeAltitudeAreaExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="HoldingPatternExtension" substitutionGroup="aixm:AbstractHoldingPatternExtension" type="event:HoldingPatternExtensionType"/>
+  <complexType name="HoldingPatternExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:HoldingPatternExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="HoldingPatternExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="UnplannedHoldingExtension" substitutionGroup="aixm:AbstractUnplannedHoldingExtension" type="event:UnplannedHoldingExtensionType"/>
+  <complexType name="UnplannedHoldingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:UnplannedHoldingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="UnplannedHoldingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AirspaceBorderCrossingExtension" substitutionGroup="aixm:AbstractAirspaceBorderCrossingExtension" type="event:AirspaceBorderCrossingExtensionType"/>
+  <complexType name="AirspaceBorderCrossingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AirspaceBorderCrossingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AirspaceBorderCrossingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="FlightRestrictionExtension" substitutionGroup="aixm:AbstractFlightRestrictionExtension" type="event:FlightRestrictionExtensionType"/>
+  <complexType name="FlightRestrictionExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:FlightRestrictionExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="FlightRestrictionExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RouteSegmentExtension" substitutionGroup="aixm:AbstractRouteSegmentExtension" type="event:RouteSegmentExtensionType"/>
+  <complexType name="RouteSegmentExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RouteSegmentExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RouteSegmentExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RouteDMEExtension" substitutionGroup="aixm:AbstractRouteDMEExtension" type="event:RouteDMEExtensionType"/>
+  <complexType name="RouteDMEExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RouteDMEExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RouteDMEExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RouteExtension" substitutionGroup="aixm:AbstractRouteExtension" type="event:RouteExtensionType"/>
+  <complexType name="RouteExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RouteExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RouteExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="ChangeOverPointExtension" substitutionGroup="aixm:AbstractChangeOverPointExtension" type="event:ChangeOverPointExtensionType"/>
+  <complexType name="ChangeOverPointExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:ChangeOverPointExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="ChangeOverPointExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="AerialRefuellingExtension" substitutionGroup="aixm:AbstractAerialRefuellingExtension" type="event:AerialRefuellingExtensionType"/>
+  <complexType name="AerialRefuellingExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:AerialRefuellingExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="AerialRefuellingExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+  <element name="RulesProceduresExtension" substitutionGroup="aixm:AbstractRulesProceduresExtension" type="event:RulesProceduresExtensionType"/>
+  <complexType name="RulesProceduresExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractExtensionType">
+        <sequence>
+          <group ref="event:RulesProceduresExtensionPropertyGroup"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <group name="RulesProceduresExtensionPropertyGroup">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="theEvent" nillable="true" type="event:EventPropertyType"/>
+    </sequence>
+  </group>
+</schema>

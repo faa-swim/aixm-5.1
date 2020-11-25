@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.aixm.aero/schema/5.1" version="5.1" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:aixm="http://www.aixm.aero/schema/5.1" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <annotation>
+    <appinfo>
+      <gml:gmlProfileSchema>http://www.aixm.aero/schema/5.1/profile/gml4aixm.xsd</gml:gmlProfileSchema>
+    </appinfo>
+  </annotation>
+  <annotation>
+    <appinfo source="www.aixm.aero/schema/5.1">AIXM_AbstractGML_ObjectTypesFeatures.xsd</appinfo>
+  </annotation>
+  <!--====================================================================-->
+  <!--Schema Imports and Includes-->
+  <!--====================================================================-->
+  <!--==== IMPORT GML 3.2 ====-->
+  <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="gml.xsd"/>
+  <!--==== IMPORT ISO19139 METADATA SCHEMA ====-->
+  <import namespace="http://www.isotc211.org/2005/gmd" schemaLocation="metadataEntity.xsd"/>
+  <!--====================================================================-->
+  <!--Base AIXM Feature/Object Constructs-->
+  <!--====================================================================-->
+  <complexType abstract="true" name="AbstractAIXMFeatureBaseType">
+    <annotation>
+      <documentation>This derives from gml:DynamicFeatureType, as all AIXM features are expected to have temporal properties modeled using the Timeslice model. While the GML specification does not mandate that dynamic features derive from gml:DynamicFeatureType, many GML-aware applications may only detect a dynamic feature by this type hierarchy. Note that all temporal properties of gml:DynamicFeatureType are removed during this restriction, because they will be added for each AIXM feature specifically, based on the TimeSlice model</documentation>
+    </annotation>
+    <complexContent>
+      <restriction base="gml:DynamicFeatureType">
+        <sequence>
+          <sequence>
+            <sequence>
+              <element minOccurs="0" ref="gml:description"/>
+              <element minOccurs="0" ref="gml:identifier"/>
+              <element maxOccurs="unbounded" minOccurs="0" ref="gml:name"/>
+            </sequence>
+          </sequence>
+          <sequence>
+            <element minOccurs="0" ref="gml:boundedBy"/>
+          </sequence>
+        </sequence>
+        <attribute ref="gml:id" use="required"/>
+      </restriction>
+    </complexContent>
+  </complexType>
+  <complexType abstract="true" name="AbstractAIXMFeatureType">
+    <annotation>
+      <documentation>Adds the FeatureMetadata, which is common to all AIXM features</documentation>
+    </annotation>
+    <complexContent>
+      <extension base="aixm:AbstractAIXMFeatureBaseType">
+        <sequence>
+          <element minOccurs="0" name="featureMetadata" type="aixm:FeatureMetadataPropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <element abstract="true" name="AbstractAIXMFeature" substitutionGroup="gml:AbstractFeature" type="aixm:AbstractAIXMFeatureType">
+    <annotation>
+      <documentation>Substitution head for AIXM features.</documentation>
+    </annotation>
+  </element>
+  <complexType abstract="true" name="AbstractAIXMObjectType">
+    <annotation>
+      <documentation>Base type for AIXM complex types that are NOT features. For example, City, ContactInformation, AirspaceVolume, etc. It derives from AbstractGMLType so that AIXM objects are recognised as GML objects, thus ensuring that GML-aware applications recognise them properly. Retains only the mandatory gml:id attribute.</documentation>
+    </annotation>
+    <complexContent>
+      <restriction base="gml:AbstractGMLType">
+        <sequence>
+          <sequence/>
+        </sequence>
+        <attribute ref="gml:id" use="required"/>
+      </restriction>
+    </complexContent>
+  </complexType>
+  <element abstract="true" name="AbstractAIXMObject" substitutionGroup="gml:AbstractGML" type="aixm:AbstractAIXMObjectType">
+    <annotation>
+      <documentation>Substitution head for AIXM objects.</documentation>
+    </annotation>
+  </element>
+  <complexType abstract="true" name="AbstractAIXMPropertyType">
+    <annotation>
+      <documentation>It provides a basis for deriving AIXM feature/object properties. It defines the nilReason attribute and currently, it is only used for properties that are derived from association with an AIM object.</documentation>
+    </annotation>
+    <attribute name="nilReason" type="gml:NilReasonEnumeration"/>
+  </complexType>
+  <!--====================================================================-->
+  <!--AIXM TimeSlice-->
+  <!--====================================================================-->
+  <complexType abstract="true" name="AbstractAIXMTimeSliceBaseType">
+    <annotation>
+      <documentation>Base type of AIXM Timeslices.  Removes option attributes that are not used in AIXM.</documentation>
+    </annotation>
+    <complexContent>
+      <restriction base="gml:AbstractTimeSliceType">
+        <sequence>
+          <sequence/>
+          <sequence>
+            <annotation>
+              <documentation>The efffectivity of the TimeSlice.</documentation>
+            </annotation>
+            <element ref="gml:validTime"/>
+          </sequence>
+        </sequence>
+        <attribute ref="gml:id" use="required"/>
+      </restriction>
+    </complexContent>
+  </complexType>
+  <complexType abstract="true" name="AbstractAIXMTimeSliceType">
+    <annotation>
+      <documentation>Adds in the AIXM specific properties, such as 'interpretation'.</documentation>
+    </annotation>
+    <complexContent>
+      <extension base="aixm:AbstractAIXMTimeSliceBaseType">
+        <sequence>
+          <element ref="aixm:interpretation"/>
+          <element minOccurs="0" ref="aixm:sequenceNumber"/>
+          <element minOccurs="0" ref="aixm:correctionNumber"/>
+          <element minOccurs="0" name="timeSliceMetadata" type="aixm:FeatureTimeSliceMetadataPropertyType"/>
+          <element minOccurs="0" ref="aixm:featureLifetime"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <!--====================================================================-->
+  <!--Feature collections-->
+  <!--====================================================================-->
+  <complexType abstract="true" name="AbstractAIXMMessageBaseType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMFeatureBaseType">
+        <sequence>
+          <element minOccurs="0" ref="aixm:sequenceNumber"/>
+          <element minOccurs="0" name="messageMetadata" type="aixm:MessageMetadataPropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType abstract="true" name="AbstractAIXMMessageType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMMessageBaseType">
+        <attributeGroup ref="gml:AggregationAttributeGroup"/>
+      </extension>
+    </complexContent>
+  </complexType>
+  <!--====================================================================-->
+  <!--Feature/Object Extensions-->
+  <!--====================================================================-->
+  <element abstract="true" name="AbstractExtension" type="aixm:AbstractExtensionType"/>
+  <complexType abstract="true" name="AbstractExtensionType">
+    <complexContent>
+      <extension base="aixm:AbstractAIXMObjectType"/>
+    </complexContent>
+  </complexType>
+  <!--====================================================================-->
+  <!--Feature and TimeSlice Properties-->
+  <!--====================================================================-->
+  <element name="interpretation">
+    <annotation>
+      <documentation>Property indicating how the timeslice is to be interpreted.  See the AIXM Temporality model for details.</documentation>
+    </annotation>
+    <simpleType>
+      <restriction base="string">
+        <enumeration value="BASELINE"/>
+        <enumeration value="SNAPSHOT"/>
+        <enumeration value="TEMPDELTA"/>
+        <enumeration value="PERMDELTA"/>
+      </restriction>
+    </simpleType>
+  </element>
+  <element name="sequenceNumber">
+    <annotation>
+      <documentation>Used for the identification of the Time Slice concerned. See the AIXM Temporality model for details.</documentation>
+    </annotation>
+    <simpleType>
+      <restriction base="unsignedInt"/>
+    </simpleType>
+  </element>
+  <element name="correctionNumber">
+    <annotation>
+      <documentation>Used for indicating the order of the corrections of a Time Slice. See the AIXM Temporality model for details.</documentation>
+    </annotation>
+    <simpleType>
+      <restriction base="unsignedInt"/>
+    </simpleType>
+  </element>
+  <element name="featureLifetime" type="gml:TimePrimitivePropertyType">
+    <annotation>
+      <documentation>The start and end of life of the feature. See the AIXM Temporality model for details.</documentation>
+    </annotation>
+  </element>
+  <!--====================================================================-->
+  <!--Base AIXM Metadata Property Types-->
+  <!--====================================================================-->
+  <complexType name="FeatureMetadataPropertyType">
+    <complexContent>
+      <extension base="gml:AbstractMetadataPropertyType">
+        <sequence minOccurs="0">
+          <element ref="gmd:MD_Metadata"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="FeatureTimeSliceMetadataPropertyType">
+    <complexContent>
+      <extension base="gml:AbstractMetadataPropertyType">
+        <sequence minOccurs="0">
+          <element ref="gmd:MD_Metadata"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="MessageMetadataPropertyType">
+    <complexContent>
+      <extension base="gml:AbstractMetadataPropertyType">
+        <sequence minOccurs="0">
+          <element ref="gmd:MD_Metadata"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+</schema>
